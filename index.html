@@ -20,6 +20,7 @@
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;padding:0}
 body{
+  min-height:100dvh;
   background:var(--wall);
   color:var(--ink);
   font-family:"Hiragino Sans","PingFang TC","Noto Sans TC","Helvetica Neue",system-ui,sans-serif;
@@ -74,7 +75,8 @@ nav button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--shu)
 }
 .day-title{font-size:20px;font-weight:800;margin:9px 0 5px;letter-spacing:-.01em}
 .day-sub{font-size:12.5px;color:var(--ink-2);line-height:1.6}
-[contenteditable]{outline:0;border-radius:2px;transition:background .12s,box-shadow .12s}
+[contenteditable]{outline:0;border-radius:2px;padding:2px 4px;margin:-2px -4px;
+  transition:background .12s,box-shadow .12s;-webkit-user-modify:read-write-plaintext-only}
 [contenteditable]:hover{background:rgba(22,32,42,.045)}
 [contenteditable]:focus{background:#fff;box-shadow:0 0 0 2px var(--ai)}
 [contenteditable]:empty:before{content:attr(data-ph);color:var(--ink-3)}
@@ -94,9 +96,9 @@ nav button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--shu)
   content:"";position:absolute;left:57px;top:8px;bottom:26px;
   width:1px;background:var(--rule);
 }
-.item{position:relative;margin-bottom:11px}
+.item{position:relative;margin-bottom:11px;cursor:pointer}
 .time{
-  position:absolute;left:-66px;top:11px;width:47px;text-align:right;
+  position:absolute;left:-66px;top:11px;width:47px;text-align:right;cursor:pointer;
   font-size:11.5px;line-height:1.35;color:var(--ink-2);font-weight:600;
 }
 .time span{display:block;color:var(--ink-3);font-weight:400}
@@ -131,6 +133,13 @@ nav button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--shu)
 .item.done .chk:after{transform:rotate(42deg) scale(1)}
 .note{font-size:12.5px;color:var(--ink-2);margin-top:6px;line-height:1.6}
 .tags{display:flex;gap:6px;margin-top:9px;flex-wrap:wrap;align-items:center}
+.pen{
+  margin-left:auto;font:600 10.5px/1 inherit;color:var(--ink-3);letter-spacing:.08em;
+  display:inline-flex;align-items:center;gap:4px;
+}
+.pen:after{content:"▾";font-size:9px;transition:transform .15s}
+.item.open .pen{color:var(--ai)}
+.item.open .pen:after{transform:rotate(180deg)}
 .tag{
   font:600 10.5px/1 inherit;padding:4px 7px;border-radius:2px;letter-spacing:.05em;
   border:1px solid currentColor;
@@ -170,7 +179,7 @@ input:focus,textarea:focus{outline:2px solid var(--ai);outline-offset:-1px;borde
 
 /* ── footer bar ── */
 .bar{
-  position:fixed;left:0;right:0;bottom:0;z-index:30;display:flex;gap:8px;
+  position:sticky;bottom:0;left:0;right:0;z-index:30;display:flex;gap:8px;
   padding:11px 14px calc(11px + env(safe-area-inset-bottom));
   background:rgba(252,252,251,.96);backdrop-filter:blur(10px);
   border-top:1px solid var(--rule);
@@ -211,7 +220,7 @@ dialog::backdrop{background:rgba(22,32,42,.45)}
 
 <header>
   <div class="eyebrow">Kyoto · 5 Days 4 Nights</div>
-  <h1>京都行程核對表<small>2026 / 8 / 29 — 9 / 2 · v26 · 點任一列可直接編輯，兩個人看到的是同一份</small></h1>
+  <h1>京都行程核對表<small>2026 / 8 / 29 — 9 / 2 · v40 · 點任一列可直接編輯，兩個人看到的是同一份</small></h1>
   <div class="tally" id="tally"></div>
   <div class="sync" id="sync"></div>
 </header>
@@ -232,6 +241,8 @@ dialog::backdrop{background:rgba(22,32,42,.45)}
   <p>全選底下的文字複製，貼到 LINE 或備忘錄都可以。</p>
   <textarea id="copyText" readonly></textarea>
   <div class="picker"><button id="dlgCopyBtn">複製全部</button><button id="dlgClose">關閉</button></div>
+  <p class="small" style="font-size:11.5px;color:var(--ink-3);margin:12px 0 0">
+    存不進去的時候，複製這段文字留著就不會丟。</p>
 </div></dialog>
 
 <dialog id="dlgReset"><div class="dlg">
@@ -244,26 +255,28 @@ dialog::backdrop{background:rgba(22,32,42,.45)}
 </div></dialog>
 
 <script>
-const KEY='kyoto-2026-itinerary-v26', SHARED=true;
+const KEY='kyoto-2026-itinerary-v40', SHARED=true;
 const STATUSES=['鎖定','待辦','必去','彈性'];
 
 const SEED=[
- {d:'8/29',w:'六',t:'抵達 · 美容儀 · 四条河原町',s:'兩場納涼床都取消了，今晚不訂餐廳。逛街時間拉長到八點多，吃什麼當天再說。',items:[
+ {d:'8/29',w:'六',t:'抵達 · 四条河原町 · 京都站',s:'兩場納涼床都取消了，今晚不訂餐廳。逛街時間拉長到八點多，吃什麼當天再說。',items:[
   {t:'行前',e:'',n:'訂 9/2 回程 HARUKA 指定席',c:'待辦事項',s:'待辦',m:'JR-WEST ONLINE TRAIN RESERVATION 訂，挑京都站 11:15–11:30 之間發車那班。回程沒有第二次機會，這個一定要先鎖。去程不用訂，理由見下面'},
-  {t:'行前',e:'',n:'查大浴場有沒有排到配管洗淨',c:'待辦事項',s:'待辦',m:'御宿野乃偶爾會做濾水管線清洗，那幾天開放時間延後到 18:00。上官網「お知らせ」看 8/29–8/31 有沒有排到，或 check-in 時問櫃台'},
-  {t:'行前',e:'',n:'查 EH-SR86 的台灣售價',c:'待辦事項',s:'待辦',m:'台灣公司貨是 110V 設計、有保固；日本國內版是 100V。朋友住日本可以幫忙送修，但電壓問題他幫不了。價差不到兩成就別在日本買。ヨドバシ 沒有一般外國旅客折價券，只有銀聯卡 5%，所以主要優惠就是免稅 10%。結帳時選免稅、不要選積分——點數帶不回台灣'},
+  {t:'行前',e:'',n:'EH-SR86 決定在日本買',c:'待辦事項',s:'必去',m:'台灣約 NT$20,000；日本定價 79,200 日圓、免稅後約 72,000（實售通常更低），換算約 NT$12,000–14,000，價差三成以上，加上朋友住日本能幫忙送修，買日本划算。結帳時選免稅、不要選積分——點數帶不回台灣。※唯一沒解決的是電壓，現場一定要問充電方式'},
   {t:'09:30',e:'13:20',n:'桃園 → 關西機場 MM024',c:'航班',s:'鎖定',m:'樂桃降落在第 2 航廈'},
   {t:'13:20',e:'14:20',n:'入境、提行李（T2）',c:'交通',s:'必去',m:'關空入境尖峰抓一小時'},
   {t:'14:20',e:'14:40',n:'免費接駁車 T2 → T1 車站',c:'交通',s:'必去',m:'鐵路車站在第 1 航廈，樂桃在第 2 航廈，一定要轉一次。約 7–10 分鐘車程，班次頻繁'},
   {t:'14:45',e:'16:05',n:'HARUKA → 京都站',c:'交通',s:'必去',m:'約 80 分鐘。去程不預訂班次：入境時間抓不準，現場買或坐自由席最有彈性'},
-  {t:'16:05',e:'16:40',n:'御宿野乃七條 Check-in',c:'住宿',s:'鎖定',m:'京都站走過去約 12 分鐘。前兩晚住這裡'},
-  {t:'16:45',e:'18:15',n:'美容儀 · ヨドバシカメラ 京都',c:'購物',s:'必去',m:'烏丸七条，離飯店走路 5 分鐘，09:30–22:00。※ビックカメラ京都駅店已於 2023 年結束營業，京都市內只剩這家。目標：Panasonic バイタリフト RF EX（EH-SR86，79,200 日圓，不綁專用凝膠）。務必做三件事：現場試 RF 溫熱感和 EMS 強度、問清楚充電方式是不是 USB-C（關係到台灣 110V 能不能直接用）、確認保證書當場蓋店章。買完直接放回飯店'},
-  {t:'18:30',e:'19:15',n:'寶可夢中心（SUINA 室町 2F）',c:'購物',s:'必去',m:'地鐵烏丸線 京都 → 四条兩站，26 號出口直結。10:00–20:00。舞妓皮卡丘、鳳王立像、京都限定商品'},
-  {t:'19:15',e:'20:10',n:'四条 → 河原町 一路逛過去',c:'購物',s:'必去',m:'多數店 20:00 打烊。KINDAL、KAPITAL 這種要慢慢翻的二手店放今天'},
-  {t:'20:20',e:'21:40',n:'晚餐（不訂位）',c:'晚餐',s:'彈性',m:'週六晚上熱門居酒屋排隊很久，拉麵或百貨餐廳樓層最保險。今晚不綁餐廳，逛到哪吃到哪'},
-  {t:'22:00',e:'',n:'蓮花之湯（通宵開放）',c:'住宿',s:'鎖定',m:'大浴場正常時段 15:00–隔天早上 10:00，除了三溫暖和 2F 瞑想之湯以外整夜都能泡，所以幾點回來都不用趕。1F 有內湯、壺湯、絲綢浴、岩風呂、奈米蒸氣三溫暖，2F 檜木瞑想之湯（微暗、溫度偏低）。溫泉水從京都府城陽市運來。※有刺青者謝絕使用大浴場。夜鳴 soba 是 21:30–23:00、免費，醬油清湯細捲麵，泡完湯剛好去吃'}]},
+  {t:'16:05',e:'16:40',n:'御宿野乃七條 Check-in',c:'住宿',s:'鎖定',m:'京都站走過去約 12 分鐘。前兩晚住這裡。放好行李就出門，晚一點再回來'},
+  {t:'16:45',e:'17:05',n:'京都站 → 四条',c:'交通',s:'必去',m:'地鐵烏丸線兩站，5 分鐘'},
+  {t:'17:05',e:'17:50',n:'寶可夢中心（SUINA 室町 2F）',c:'購物',s:'必去',m:'四条烏丸，地鐵四条站 26 號出口直結。10:00–20:00。舞妓皮卡丘、鳳王立像、京都限定商品'},
+  {t:'17:50',e:'19:50',n:'四条 → 河原町 逛街',c:'購物',s:'必去',m:'兩小時，比原本多一倍。KINDAL、KAPITAL 這種要慢慢翻的二手店放今天。多數店 20:00 打烊，最後半小時挑重點'},
+  {t:'19:50',e:'20:10',n:'回京都站',c:'交通',s:'必去',m:'地鐵烏丸線。餓了就在站內或路上的便利商店買個東西墊著，正餐今晚不吃'},
+  {t:'20:15',e:'21:15',n:'美容儀 · ヨドバシカメラ 京都',c:'購物',s:'必去',m:'烏丸七条，離飯店走路 5 分鐘，開到 22:00。※先解決美容儀再逛衣服——退稅櫃台會排隊，別拖到最後。目標 Panasonic バイタリフト RF EX（EH-SR86）。現場三件事：試 RF 溫熱感和 EMS 強度、問充電是不是 USB-C（關係到台灣 110V）、確認保證書當場蓋店章。結帳選免稅不要選積分'},
+  {t:'21:15',e:'21:55',n:'UNIQLO（京都ヨドバシ 4F）',c:'購物',s:'必去',m:'同一棟樓，不用移動。10:00–22:00，可以退稅、出示護照就直接扣。※GU 在 5 樓但 21:00 就關，想逛要提前'},
+  {t:'22:00',e:'22:10',n:'走回御宿野乃',c:'交通',s:'必去',m:'約 5 分鐘'},
+  {t:'22:15',e:'',n:'夜鳴 soba → 蓮花之湯',c:'住宿',s:'鎖定',m:'※先吃拉麵再泡湯——夜鳴 soba 只供應到 23:00，大浴場則是整夜開放。醬油清湯細捲麵，免費。大浴場 15:00–隔天早上 10:00（已確認這幾天沒有配管洗淨），除了三溫暖和 2F 瞑想之湯以外整夜都能泡，所以幾點回來都不用趕。1F 有內湯、壺湯、絲綢浴、岩風呂、奈米蒸氣三溫暖，2F 檜木瞑想之湯（微暗、溫度偏低）。溫泉水從京都府城陽市運來。※有刺青者謝絕使用大浴場。有刺青者謝絕使用大浴場'}]},
 
- {d:'8/30',w:'日',t:'東山夏季限定 · 錦市場 · 川床星巴克',s:'全程最硬的一天。高台寺特別公開只到 8/31，今天是最後機會。早上先空景拍照、十點商店開了再回頭買。下午是南下再北上的 U 形，長距離排在前面。',items:[
+ {d:'8/30',w:'日',t:'東山夏季限定 · 錦市場 · D&D · 川床',s:'全程最硬的一天。高台寺特別公開只到 8/31，今天是最後機會。早上先空景拍照、十點商店開了再回頭買。下午一路順向不回頭：花見小路、檀王、錦市場、D&D、川床、河原町，全部往北往西串成一線。',items:[
   {t:'06:25',e:'06:50',n:'出發去清水寺（不吃早餐）',c:'交通',s:'必去',m:'早餐移到 8/31。計程車約 15 分鐘，這個時間路上很空。空腹會撐到中午，前一晚先在便利商店買個飯糰帶著'},
   {t:'06:50',e:'08:10',n:'清水寺',c:'古蹟',s:'必去',m:'6:00 就開門。八月日出約 5:20，這個時間光線好、人最少'},
   {t:'08:10',e:'08:55',n:'三年坂 → 二年坂（拍照）',c:'街區',s:'必去',m:'店家十點才開，所以這一趟純粹是空景。沒有人的石板路是這條街一天中最好看的樣子，購物等等再回來'},
@@ -273,49 +286,53 @@ const SEED=[
   {t:'11:05',e:'11:45',n:'大雲院 祇園閣（夏季特別公開）',c:'古蹟',s:'必去',m:'內部平常不開放。伊藤忠太設計，敦煌壁畫複製、十二生肖銅像天井，三樓看京都全景。10:00 開門，800 日圓。三樓禁止拍照'},
   {t:'11:45',e:'11:55',n:'圓山公園 → 八坂神社',c:'神社',s:'彈性',m:'快速通過，趕午餐。想細看的話把購物縮短十分鐘'},
   {t:'12:05',e:'13:10',n:'十二段家 本店',c:'午餐',s:'鎖定',m:'已預約，商業午餐。※Google 上的午餐時段是 11:30–13:00，12:30 進去可能貼著打烊——訂位時確認一下實際能坐到幾點，必要時提早到 12:00。週三、四公休，8/30 週日有開'},
-  {t:'13:30',e:'13:50',n:'走到三条京阪',c:'交通',s:'必去',m:''},
-  {t:'13:50',e:'14:35',n:'檀王法林寺（黑招財貓）',c:'寺院',s:'必去',m:'16:00 關門所以排第一。拜觀 10:00–12:00／13:00–16:00，本堂 300 日圓。黑招財貓授與品在庫裏（寺務所）。※有遊客回報 2026 年上半年黑招財貓曾長期缺貨，出發前可以先打電話問（075-771-0870）'},
-  {t:'14:55',e:'15:30',n:'因幡堂 平等寺（毛孩御守）',c:'寺院',s:'必去',m:'從三条京阪往西南走約 22 分鐘，是今天最長的一段步行，但排在還有體力的時候。四条烏丸站 5 號出口走 4 分鐘。寵物守、招財貓籤、小鳥御守（虎皮鸚鵡、玄鳳都有）。開門 6:00–17:00，御守授與 9:00–16:30，參拜免費'},
-  {t:'15:35',e:'16:25',n:'錦市場',c:'街區',s:'必去',m:'從平等寺往北走 5 分鐘就到西端。從高倉進、寺町出，一路往北，出來離三条大橋只剩 8 分鐘。多數店 17:00 前收攤，這個時段剛好'},
-  {t:'16:35',e:'17:35',n:'星巴克 京都三条大橋店 · 納涼床',c:'咖啡／納涼床',s:'必去',m:'錦市場寺町出口走過來約 8 分鐘。6–8 月川床席 16:00 之後才開放。免席位費，一杯飲料就能上，限時 1 小時、一桌最多 4 人。禁用電腦、請勿撐陽傘。這是今天唯一坐得下來的一小時'},
-  {t:'17:45',e:'20:00',n:'河原町購物 · 藥妝',c:'購物',s:'必去',m:'Stüssy、atmos、京都BAL、KINDAL、KAPITAL，加上藥妝（面膜、防曬、開架彩妝——藥妝店開到很晚，放這裡買）。星巴克出來就是了。8/29 沒逛完的補在今天，兩小時十五分，先排優先順序'},
+  {t:'13:10',e:'13:35',n:'花見小路 → 白川 → 三条京阪',c:'街區',s:'必去',m:'不細逛，走過去就好。從十二段家出來往東就是花見小路，石板路兩側是茶屋建築，往北接新橋通、白川那段最有味道，邊走邊拍就夠了。※花見小路有私有地段禁止拍照，地上有標示'},
+  {t:'13:35',e:'14:15',n:'檀王法林寺（黑招財貓）',c:'寺院',s:'必去',m:'16:00 關門所以排第一。拜觀 10:00–12:00／13:00–16:00，本堂 300 日圓。黑招財貓授與品在庫裏（寺務所）。※有遊客回報 2026 年上半年黑招財貓曾長期缺貨，出發前可以先打電話問（075-771-0870）'},
+  {t:'14:25',e:'15:30',n:'錦市場',c:'街區',s:'必去',m:'65 分鐘，吃邊走邊逛剛好。從三条京阪往南走約 10 分鐘，從寺町進、高倉出（或反過來），出來離三条大橋只剩 8 分鐘。※整條有頂棚，是下午唯一能遮陽的路段——太熱就在這裡多待一會，反正時間夠。多數店 17:00 前收攤'},
+  {t:'15:40',e:'16:20',n:'D&DEPARTMENT KYOTO',c:'購物',s:'必去',m:'錦市場南端走過去約 8 分鐘。※藏在本山佛光寺境內（下京區新開町 397），招牌不明顯——認明佛光寺山門走進去，境內有指標。11:00–18:00，週三公休。選品是日本各地的長銷生活道具和京都在地職人的器皿，室內有冷氣，剛好接在最熱的時段後面。旁邊的 d 食堂同一區，今天用不到'},
+  {t:'16:30',e:'17:30',n:'星巴克 京都三条大橋店 · 納涼床',c:'咖啡／納涼床',s:'必去',m:'從 D&D 走過來約 12 分鐘。6–8 月川床席 16:00 之後才開放。免席位費，一杯飲料就能上，限時 1 小時、一桌最多 4 人。禁用電腦、請勿撐陽傘。這是今天唯一坐得下來的一小時'},
+  {t:'17:40',e:'20:00',n:'河原町購物 · 藥妝',c:'購物',s:'必去',m:'Stüssy、atmos、京都BAL、KINDAL、KAPITAL，加上藥妝（面膜、防曬、開架彩妝——藥妝店開到很晚，放這裡買）。星巴克出來就是了。8/29 沒逛完的補在今天，兩小時十五分，先排優先順序'},
   {t:'21:00',e:'22:30',n:'Rokkaku Ace',c:'居酒屋',s:'鎖定',m:'已預約。下午記得墊個東西，不然撐不到。今晚回飯店大概 23:00，夜鳴 soba 剛好收攤，想吃只有 8/29 那晚'},
   {t:'23:00',e:'',n:'整理行李',c:'住宿',s:'必去',m:'明天一早 06:30 就要退房寄放，今晚一定要打包完。走了十六小時之後做這件事很痛苦，但省下的是明天早上一整段'}]},
 
- {d:'8/31',w:'一',t:'伏見稻荷 · 涉成園 · 宇治 · 任天堂',s:'先吃早餐再退房，稻荷、涉成園、宇治、博物館一路往南，晚上 carta. 接 FUREK。',items:[
+ {d:'8/31',w:'一',t:'伏見稻荷 · 涉成園 · 任天堂',s:'先吃早餐再退房，稻荷、涉成園、博物館一路往南。晚上 carta. 接 FUREK，會是最晚的一夜。',items:[
   {t:'前一晚',e:'',n:'整理好行李',c:'待辦事項',s:'待辦',m:'這版的唯一代價。8/30 是 22:30 才從 Rokkaku Ace 回來、走了十六小時的一天，那個狀態下打包很痛苦。撐不住的話就改成早上回飯店再退房'},
   {t:'06:30',e:'07:05',n:'飯店早餐',c:'早餐',s:'必去',m:'供應 6:30–9:30。招牌是京都老舖湯葉做的湯葉海鮮丼，鮭魚卵和生魚片可以自己盛——這是這家在 Dormy Inn 系列裡評價最高的東西，從 8/30 換過來的'},
   {t:'07:10',e:'07:30',n:'退房 · 行李寄放櫃台',c:'住宿',s:'鎖定',m:'櫃台 24 小時有人。行李留這裡，晚上回程順路取'},
   {t:'07:35',e:'07:50',n:'JR 京都 → 稻荷',c:'交通',s:'必去',m:'兩站五分鐘。走到京都站約 12 分鐘'},
   {t:'07:50',e:'09:20',n:'伏見稻荷大社',c:'神社',s:'必去',m:'沒有開門時間，24 小時可進，早到就是純賺。有兩小時，可以往上走到三之辻的展望點再折返；走到山頂還是要兩小時以上，不建議'},
   {t:'09:20',e:'09:45',n:'稻荷 → 京都站',c:'交通',s:'必去',m:'走去涉成園約 10 分鐘，10:00 開門剛好'},
-  {t:'10:00',e:'11:00',n:'涉成園 閬風亭（夏季特別公開）',c:'庭園',s:'鎖定',m:'週一有開，已確認。京都站走過去約 10 分鐘。井上雄彥畫親鸞生平的大型屏風畫特別展出。10:00–16:30，閬風亭 500 日圓＋庭園維持費 700 日圓。為了去宇治吃飯壓縮成 60 分鐘，閬風亭先看，庭園快走一圈'},
-  {t:'11:00',e:'11:15',n:'走回京都站',c:'交通',s:'必去',m:''},
-  {t:'11:20',e:'11:40',n:'JR 奈良線 → JR 宇治',c:'交通',s:'必去',m:'みやこ路快速約 20 分鐘，普通車約 30 分。上車前確認是快速還是普通'},
-  {t:'11:45',e:'13:20',n:'宇治午餐 · 平等院表參道',c:'午餐',s:'必去',m:'JR 宇治站走到表參道約 10 分鐘，兩側都是室町時代就有的老茶舖。首選六情庵（蓮華 5，11:00–17:00，抹茶蕎麥麵套餐 1,580 日圓，店小、排隊短、有庭園）。中村藤吉本店就在 JR 宇治站旁但平日也要排 45 分鐘以上，要去的話一到就先登記候位。時間只夠吃飯加走一段，平等院鳳凰堂進不去'},
-  {t:'13:30',e:'13:40',n:'JR 宇治 → JR 小倉',c:'交通',s:'必去',m:'奈良線南下一站，約 4 分鐘。※只有普通車停小倉，快速會直接過站'},
-  {t:'13:45',e:'14:20',n:'JR 小倉站 → Nintendo Museum',c:'步行',s:'必去',m:'走路約 8 分鐘（近鐵小倉站是 5 分鐘）。提早到門口等，寧可早不要晚'},
+  {t:'10:00',e:'11:35',n:'涉成園 閬風亭（夏季特別公開）',c:'庭園',s:'鎖定',m:'週一有開，已確認。京都站走過去約 10 分鐘。井上雄彥畫親鸞生平的六曲一雙大屏風——這幅平常不公開，過去只在秋天開放三天，今年 8/5–9/30 這種近兩個月的檔期非常罕見。園林堂裡還有棟方志功 1958 年的四十四面襖繪，特別公開期間通常一起開放。10:00–16:30，閬風亭 500 日圓＋庭園維持費 700 日圓'},
+  {t:'11:35',e:'11:45',n:'走回京都站',c:'交通',s:'必去',m:'約 10 分鐘'},
+  {t:'11:45',e:'12:40',n:'京都站午餐',c:'午餐',s:'必去',m:'涉成園走回京都站約 10 分鐘。伊勢丹的餐廳樓層或站內的拉麵小路都可以，吃完就近搭近鐵'},
+  {t:'12:40',e:'13:00',n:'走到近鐵剪票口',c:'交通',s:'必去',m:'京都站很大，近鐵在八条口方向，走過去要 10 分鐘以上，別小看'},
+  {t:'13:00',e:'13:25',n:'京都站 → 近鐵小倉站',c:'交通',s:'必去',m:'近鐵京都線約 20 分鐘'},
+  {t:'13:30',e:'14:20',n:'近鐵小倉站 → Nintendo Museum',c:'步行',s:'必去',m:'走路約 5 分鐘。提早到門口等，寧可早不要晚'},
   {t:'14:30',e:'17:30',n:'Nintendo Museum',c:'景點',s:'鎖定',m:'已購票，指定入場 14:30–15:00'},
-  {t:'17:30',e:'18:15',n:'小倉站 → 京都站',c:'交通',s:'必去',m:'近鐵原路回'},
+  {t:'17:30',e:'18:15',n:'近鐵小倉站 → 京都站',c:'交通',s:'必去',m:'近鐵原路回'},
   {t:'18:15',e:'18:35',n:'御宿野乃 取行李',c:'住宿',s:'必去',m:'京都站走過去約 7 分鐘，幾乎不繞路'},
   {t:'18:45',e:'',n:'丸福樓 Check-in',c:'住宿',s:'鎖定',m:'從御宿野乃搭計程車 10 分鐘。後兩晚。晚上不排行程，飯店本身就是重點'},
-  {t:'19:30',e:'21:30',n:'carta. 晚餐（丸福樓內）',c:'晚餐',s:'待辦',m:'※要打給丸福樓把預約從 9/1 改到今天（075-353-3355），有可能訂滿。料理家細川亞衣監修，連空間設計都是她做的，新式洋食套餐可加紅酒 pairing'},
+  {t:'19:30',e:'21:30',n:'carta. 晚餐（丸福樓內）',c:'晚餐',s:'鎖定',m:'已改期完成。料理家細川亞衣監修，連空間設計都是她做的，新式洋食套餐可加紅酒 pairing'},
   {t:'21:45',e:'23:15',n:'Cocktail Stand FUREK',c:'酒吧',s:'彈性',m:'※週二公休，所以只能排今天（週一 18:00–24:00）。東山區鐘鑄町 352，從丸福樓走過去十幾分鐘，過個橋就到。130 年町家改建的站立式立飲調酒吧，自家井水加 150 種以上香氣蒸餾液，連 tonic 都自製，Google 4.9 分、人均 4,000–5,000 日圓。出發前看 Instagram 確認有沒有臨時休'},
-  {t:'23:30',e:'',n:'走回丸福樓',c:'住宿',s:'必去',m:'※明天 07:00 就要出發去嵐山，這樣只睡得到六小時左右。撐不住的話 FUREK 早點收，或明早改 07:30 出發（竹林 08:15 到還是比人潮早）'}]},
+  {t:'23:30',e:'',n:'走回丸福樓',c:'住宿',s:'必去',m:'※明天 07:00 就要出發去嵐山。說好喝一杯就走，別戀棧——明天下午的休息只剩 75 分鐘'}]},
 
- {d:'9/1',w:'二',t:'嵐山竹林 · 金閣寺 · 二条城',s:'不排仁和寺——四個點塞不下。這條線由西往北再往東南，不回頭。下午三點回飯店補眠，晚上祇園鰻魚，最後一杯回飯店喝。',items:[
+ {d:'9/1',w:'二',t:'竹林 · 小火車 · 金閣寺 · 二条城 · 平等寺',s:'不排仁和寺——四個點塞不下。由西往北再往東南，不回頭。二条城只看二之丸御殿，順路收平等寺，回飯店補眠兩小時，晚上祇園鰻魚。',items:[
   {t:'07:00',e:'07:45',n:'丸福樓 → 嵐山',c:'交通',s:'必去',m:'搭電車，避開巴士'},
-  {t:'07:45',e:'08:45',n:'竹林小徑 → 野宮神社 → 渡月橋',c:'自然',s:'必去',m:'竹林免費、沒有開放時間，一早去是唯一正確答案，十點後人潮完全不同。天龍寺這次跳過（8:30 才開，夏天庭園也不是最好看的時候）'},
-  {t:'09:00',e:'09:45',n:'嵐山 → 金閣寺',c:'交通',s:'必去',m:'計程車約 25 分、3,000 日圓出頭最省事。搭車是 JR 嵯峨嵐山 → 円町 再轉市巴士 205'},
-  {t:'09:45',e:'10:45',n:'金閣寺',c:'古蹟',s:'必去',m:'9:00–17:00，500 日圓。繞一圈 40 分鐘就夠，是「看一眼很震撼、走一圈就結束」的地方'},
-  {t:'11:00',e:'11:30',n:'金閣寺 → 二条城',c:'交通',s:'必去',m:'市巴士 12 號，或計程車約 20 分鐘'},
-  {t:'11:30',e:'12:30',n:'二条城周邊午餐',c:'午餐',s:'必去',m:'金閣寺附近餐廳選擇少，往二条城這邊走比較好吃。可以指定湯豆腐或蕎麥，這是全程唯一一頓京都味的正餐'},
-  {t:'12:30',e:'14:30',n:'二条城',c:'古蹟',s:'必去',m:'世界遺產、大政奉還的現場。二之丸御殿有狩野派障壁畫和鶯張走廊，大半在室內，八月底這點很值錢。入城 8:45–16:00（17:00 閉城），二之丸御殿 9:00–16:00。入城＋御殿 1,300 日圓。※二之丸御殿在 1、7、8、12 月的週二休館——9/1 是九月，不受影響'},
-  {t:'15:00',e:'17:30',n:'回丸福樓休息',c:'休息',s:'必去',m:'刻意留白。昨晚喝到很晚，這兩個半小時一定要補眠'},
-  {t:'17:40',e:'18:00',n:'丸福樓 → 祇園',c:'交通',s:'必去',m:'京阪七条 → 祇園四条兩站，出站走 4 分鐘'},
-  {t:'18:00',e:'19:30',n:'祇をん う桶や う',c:'晚餐',s:'待辦',m:'※週一公休、晚餐只到 20:00，所以只有今天排得下——carta. 改到 8/31 之後才空出這個位置。祇園西花見小路，百年町家，二樓榻榻米座敷。招牌「名代う桶」是江戶燒鰻魚排成筏狀盛在杉木桶裡，小份（三人份）11,700 日圓，兩人吃得完。只收電話預約，075-551-9966'},
-  {t:'19:45',e:'20:10',n:'走回丸福樓',c:'交通',s:'彈性',m:'祇園走回去約 20 分鐘，沿鴨川散步很舒服；不想走就京阪祇園四条 → 七条兩站'},
-  {t:'20:15',e:'22:30',n:'圖書室、自助酒吧',c:'住宿',s:'彈性',m:'開到 23:00。山內家詮釋任天堂歷史的圖書室，加上自助式吧台，威士忌、琴酒自己調，全部included。最後一晚不用再出門，這裡收尾剛好'},
+  {t:'07:45',e:'08:35',n:'竹林小徑 → 野宮神社',c:'自然',s:'必去',m:'竹林免費、沒有開放時間，一早去是唯一正確答案，十點後人潮完全不同。天龍寺跳過（8:30 才開），渡月橋也略過——保津川的景等一下在小火車上看更好'},
+  {t:'08:40',e:'08:55',n:'走到小火車嵯峨站',c:'交通',s:'必去',m:'トロッコ嵯峨駅是獨立站體、有自己面向街道的出入口，從竹林走過去直接進去就好，不用碰 JR 的閘門（早上 07:45 下車時就已經刷 Suica 出站了）。小火車票只在小火車的閘門用，跟 JR 是兩套系統。記得先把電子車票截圖存相簿'},
+  {t:'09:02',e:'09:25',n:'嵯峨野小火車 1 號（嵯峨 → 龜岡）',c:'景點',s:'鎖定',m:'已訂，訂單 ARS_SAGANO_KANKO-20260820-JDCU，成人 ×2、1,760 日圓。座位 1 號車 10 排 A、D——偶數側看得到保津川，A、D 是外側窗邊，有屋頂不曬。下行時 D 面向前進方向、A 背向。全程 7.3 公里、穿八個隧道、23 分鐘。※這批車輛年底退役，2027 春天換新車'},
+  {t:'09:35',e:'09:55',n:'走到 JR 馬堀站 → 嵯峨嵐山',c:'交通',s:'必去',m:'從小火車龜岡站走約 10 分鐘，平路、指標清楚。沒買回程小火車票就是為了不用趕那 5 分鐘轉車。JR 直接刷 Suica'},
+  {t:'10:00',e:'10:35',n:'嵯峨嵐山 → 金閣寺',c:'交通',s:'必去',m:'計程車約 25 分、3,000 日圓出頭最省事'},
+  {t:'10:40',e:'11:40',n:'金閣寺',c:'古蹟',s:'必去',m:'9:00–17:00，500 日圓，只收現金。繞一圈 40 分鐘就夠，單向動線、沿路沒有座位'},
+  {t:'11:50',e:'12:20',n:'金閣寺 → 蕎麥麵店',c:'交通',s:'必去',m:'計程車約 20 分鐘，或市巴士 12 號'},
+  {t:'12:30',e:'13:30',n:'蕎麦 たつ市（Soba Tatsuichi）',c:'午餐',s:'鎖定',m:'已訂 12:30。中京區二条油小路町 276，離二条城走路 7 分鐘。11:30–22:00 無休，Google 4.3、1,400 多則評論。招牌是鴨肉蕎麥和季節限定的六種冷蕎麥拼盤，份量偏大，別點太多。※就算訂了位，門口還是要在紙上寫名字排隊，約等 10 分鐘。飯後有蕎麥冰淇淋'},
+  {t:'13:40',e:'14:30',n:'二条城 · 只看二之丸御殿',c:'古蹟',s:'必去',m:'從蕎麥麵店走過來 7 分鐘。世界遺產、大政奉還的現場。33 個房間是一條單向走廊走完，40–50 分鐘就夠。唐門在入口動線上、二之丸庭園緊接在出口，最精華的都會經過；天守閣跡和清流園跳過，八月底在太陽下繞圈不划算。入城＋御殿 1,300 日圓。※夏季特別事業的大廣間三之間特別入室（7/22–8/24）和障壁畫原畫公開（–8/11）到 9/1 都已結束，看的是常態展示。※本丸御殿要另外預約、來回多一個半小時，這次不排。★大休憩所內賣店有夏限定「入城記念符」：以二之丸御殿障壁畫的鷹與虎為主題、金箔燙印，700 日圓、限量 5,000 張，8/1 開賣賣完為止，而且會印上當天日期。大休憩所就在參觀動線旁，順手買。怕賣完可先電話問 075-841-0096。※御殿內脫鞋、要穿襪子、全面禁止攝影。※二之丸御殿只有 1、7、8、12 月的週二休館，9/1 不受影響'},
+  {t:'14:55',e:'15:35',n:'因幡堂 平等寺（毛孩御守）',c:'寺院',s:'必去',m:'二条城回丸福樓本來就會經過烏丸，順路不繞。地鐵四条站 5 號出口走 4 分鐘。寵物守、招財貓籤、小鳥御守（虎皮鸚鵡、玄鳳都有）。御守授與 16:30 截止，現在有快一小時緩衝'},
+  {t:'16:00',e:'18:00',n:'回丸福樓休息',c:'休息',s:'必去',m:'昨晚在 FUREK 待到晚，這兩小時一定要躺平。二条城只看二之丸御殿換回來的'},
+  {t:'18:05',e:'18:25',n:'丸福樓 → 祇園',c:'交通',s:'必去',m:'京阪七条 → 祇園四条兩站，出站走 4 分鐘'},
+  {t:'18:30',e:'19:45',n:'祇をん う桶や う',c:'晚餐',s:'鎖定',m:'已預約 18:30。晚餐只到 20:00，別遲到。祇園西花見小路，百年町家，二樓榻榻米座敷。招牌「名代う桶」是江戶燒鰻魚排成筏狀盛在杉木桶裡，小份（三人份）11,700 日圓，兩人吃得完'},
+  {t:'19:50',e:'20:15',n:'走回丸福樓',c:'交通',s:'彈性',m:'祇園走回去約 20 分鐘，沿鴨川散步很舒服；不想走就京阪祇園四条 → 七条兩站'},
+  {t:'20:20',e:'22:30',n:'圖書室、自助酒吧',c:'住宿',s:'彈性',m:'開到 23:00。山內家詮釋任天堂歷史的圖書室，加上自助式吧台，威士忌、琴酒自己調，全部included。最後一晚不用再出門，這裡收尾剛好'},
   {t:'22:30',e:'',n:'整理行李',c:'住宿',s:'必去',m:'明天 08:00 carta. 早餐、10:30 就要出發，今晚一定要收完'}]},
 
  {d:'9/2',w:'三',t:'回程',s:'比原本提前 30 分鐘出發。樂桃在第 2 航廈，HARUKA 到的是第 1 航廈，中間要再轉一次接駁車。',items:[
@@ -351,15 +368,33 @@ function toast(msg,bad){
 const hasStore = typeof window.storage!=='undefined' && window.storage
   && typeof window.storage.set==='function';
 
+// Fallback for when this file is opened outside Claude (local file, cloud, own hosting):
+// window.storage doesn't exist there, so fall back to the browser's own storage.
+let hasLocal=false;
+try{ const k='__probe__'; window.localStorage.setItem(k,'1'); window.localStorage.removeItem(k); hasLocal=true; }catch(_){ hasLocal=false; }
+
+async function readStore(){
+  if(hasStore){ const r=await window.storage.get(KEY,SHARED); return r.value; }
+  if(hasLocal){ const v=window.localStorage.getItem(KEY); if(v===null) throw new Error('empty'); return v; }
+  throw new Error('no storage');
+}
+async function writeStore(str){
+  if(hasStore){ await window.storage.set(KEY,str,SHARED); return 'shared'; }
+  if(hasLocal){ window.localStorage.setItem(KEY,str); return 'local'; }
+  throw new Error('no storage');
+}
+const canStore=()=>hasStore||hasLocal;
+
 async function load(){
   say('讀取中…');
   try{
-    const r=await window.storage.get(KEY,SHARED);
-    data=normalize(JSON.parse(r.value));
-    say('已同步 · 你們兩個人看到的是同一份');
+    data=normalize(JSON.parse(await readStore()));
+    say(hasStore?'已同步 · 你們兩個人看到的是同一份':'已讀取這台裝置上存的版本（只存在這台電腦／手機）');
   }catch(e){
     data=normalize(clone(SEED));
-    say('目前是建議版本，修改後會自動儲存');
+    if(hasStore){ say('目前是建議版本，修改後會自動儲存，兩個人共用同一份'); }
+    else if(hasLocal){ say('目前是建議版本，修改後會存在這台裝置（不會同步給另一個人）'); }
+    else { say('這個畫面沒有儲存空間，改動只留在目前分頁'); setTimeout(()=>toast('存不了，請用「複製成文字」備份',true),600); }
   }
   render();
 }
@@ -367,16 +402,16 @@ async function load(){
 async function save(silent){
   clearTimeout(saveTimer);
   const btn=$('#btnSave');
-  if(!hasStore){
+  if(!canStore()){
     say('這個畫面沒有儲存空間，改動只留在目前分頁');
     toast('存不了，請先用「複製成文字」備份',true);
     return;
   }
   say('儲存中…'); if(!silent){btn.textContent='儲存中…';}
   try{
-    await window.storage.set(KEY,JSON.stringify(data),SHARED);
+    const where=await writeStore(JSON.stringify(data));
     const t=new Date().toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit'});
-    say('已儲存 '+t);
+    say('已儲存 '+t+(where==='local'?' · 存在這台裝置':' · 兩人共用'));
     toast('已儲存 '+t);
     if(!silent){
       btn.textContent='已儲存';btn.classList.add('ok');
@@ -409,10 +444,10 @@ function renderDay(){
   const d=data[active];
   $('#main').innerHTML=`<section class="day">
     <div class="day-head">
-      <div class="day-no">DAY ${active+1} · <span contenteditable="plaintext-only" data-d="d" data-ph="日期">${esc(d.d)}</span>（<span contenteditable="plaintext-only" data-d="w" data-ph="—">${esc(d.w)}</span>）</div>
-      <div class="day-title" contenteditable="plaintext-only" data-d="t" data-ph="這天的標題">${esc(d.t)}</div>
-      <div class="day-sub" contenteditable="plaintext-only" data-d="s" data-ph="加一句這天的備註…">${esc(d.s||'')}</div>
-      <div class="hint">標題、日期、備註都可以直接點下去改</div>
+      <div class="day-no">DAY ${active+1} · <span contenteditable="true" data-d="d" data-ph="日期">${esc(d.d)}</span>（<span contenteditable="true" data-d="w" data-ph="—">${esc(d.w)}</span>）</div>
+      <div class="day-title" contenteditable="true" data-d="t" data-ph="這天的標題">${esc(d.t)}</div>
+      <div class="day-sub" contenteditable="true" data-d="s" data-ph="加一句這天的備註…">${esc(d.s||'')}</div>
+      <div class="hint">上面的日期、標題、備註可直接點下去改；下面每一列點一下會展開編輯</div>
       <div class="daybar">
         <button data-day="add">＋ 新增一天</button>
         <button data-day="left">← 往前移</button>
@@ -435,7 +470,7 @@ function row(i,x){
         <div class="chk" data-act="done" role="checkbox" aria-checked="${i.done}" tabindex="0" aria-label="標記已確認"></div>
       </div>
       ${i.m?`<div class="note">${esc(i.m)}</div>`:''}
-      <div class="tags"><span class="tag ${esc(i.s)}">${esc(i.s)}</span><span class="cat">${esc(i.c)}</span></div>
+      <div class="tags"><span class="tag ${esc(i.s)}">${esc(i.s)}</span><span class="cat">${esc(i.c)}</span><span class="pen">編輯</span></div>
       <div class="edit">
         <div class="row2">
           <div><label>開始</label><input type="text" data-f="t" value="${esc(i.t)}" placeholder="09:00"></div>
@@ -501,16 +536,25 @@ document.addEventListener('click',e=>{
     tally();queueSave();return;
   }
   if(e.target.closest('.edit'))return;
-  if(e.target.closest('[data-act="toggle"]')){
-    const wasOpen=item.classList.contains('open');
-    document.querySelectorAll('.item.open').forEach(n=>n.classList.remove('open'));
-    if(!wasOpen)item.classList.add('open');
+  const wasOpen=item.classList.contains('open');
+  document.querySelectorAll('.item.open').forEach(n=>n.classList.remove('open'));
+  if(!wasOpen){
+    item.classList.add('open');
+    try{
+      const f=item.querySelector('input[data-f="t"]');
+      if(f&&window.innerWidth>=640)f.focus();
+    }catch(_){}
   }
 });
 
 document.addEventListener('keydown',e=>{
   if((e.key===' '||e.key==='Enter')&&e.target.classList.contains('chk')){e.preventDefault();e.target.click();}
 });
+
+document.addEventListener('blur',e=>{
+  const t=e.target;
+  if(t&&t.dataset&&t.dataset.d){ data[active][t.dataset.d]=t.textContent.trim(); renderNav(); save(true); }
+},true);
 
 document.addEventListener('input',e=>{
   const df=e.target.dataset.d;
