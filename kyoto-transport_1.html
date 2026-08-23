@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>京都交通攻略 · 8/29–9/2</title>
+<style>
+:root{
+  --wall:#E4E7E3;--card:#FCFCFB;--ink:#16202A;--ink-2:#55636F;--ink-3:#8A959E;
+  --rule:#D2D7D2;--shu:#C0392B;--matsu:#4F6B57;--ai:#2E4A62;--amber:#B4741A;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{
+  background:var(--wall);color:var(--ink);
+  font-family:"Hiragino Sans","PingFang TC","Noto Sans TC","Helvetica Neue",system-ui,sans-serif;
+  font-size:15px;line-height:1.7;padding:0 0 60px;
+}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+
+header{padding:28px 18px 20px;border-bottom:1px solid var(--rule);
+  background:linear-gradient(180deg,#EDEFEB,var(--wall))}
+.eyebrow{font-size:10.5px;letter-spacing:.34em;text-transform:uppercase;color:var(--ink-3);margin-bottom:9px}
+h1{margin:0;font-size:26px;font-weight:800;letter-spacing:-.02em;line-height:1.2}
+h1 small{display:block;font-size:13px;font-weight:500;color:var(--ink-2);margin-top:8px;letter-spacing:.02em}
+
+nav{position:sticky;top:0;z-index:10;display:flex;overflow-x:auto;scrollbar-width:none;
+  background:rgba(228,231,227,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--rule)}
+nav::-webkit-scrollbar{display:none}
+nav a{flex:0 0 auto;padding:12px 14px;font:600 12.5px/1.3 inherit;color:var(--ink-2);
+  text-decoration:none;white-space:nowrap;border-bottom:2px solid transparent}
+nav a:hover{color:var(--ink);border-bottom-color:var(--shu)}
+
+main{padding:6px 16px 0}
+section{padding:26px 0 4px;border-bottom:1px solid var(--rule)}
+section:last-child{border-bottom:0}
+h2{font-size:19px;font-weight:800;margin:0 0 4px;letter-spacing:-.01em;scroll-margin-top:52px}
+.lede{color:var(--ink-2);font-size:13px;margin:0 0 18px}
+h3{font-size:14.5px;font-weight:700;margin:22px 0 8px}
+p{margin:0 0 12px}
+strong{font-weight:700}
+.small{font-size:12.5px;color:var(--ink-2)}
+
+.card{background:var(--card);border:1px solid var(--rule);border-radius:3px;padding:14px 15px;margin:0 0 12px}
+.card h4{margin:0 0 6px;font-size:14px;font-weight:700}
+.card p:last-child{margin-bottom:0}
+
+.tag{display:inline-block;font:600 10.5px/1 inherit;padding:4px 7px;border-radius:2px;
+  border:1px solid currentColor;letter-spacing:.05em;margin:0 6px 6px 0}
+.t-ai{color:var(--ai)}.t-shu{color:var(--shu)}.t-matsu{color:var(--matsu)}.t-amber{color:var(--amber)}
+
+table{width:100%;border-collapse:collapse;margin:6px 0 16px;font-size:13px}
+th,td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-size:10.5px;letter-spacing:.14em;color:var(--ink-3);font-weight:600;text-transform:uppercase}
+td:first-child{white-space:nowrap;font-weight:600}
+.fare{white-space:nowrap;font-variant-numeric:tabular-nums;color:var(--ink-2)}
+
+.warn{border-left:3px solid var(--shu);background:#fff;padding:12px 14px;margin:0 0 14px;border-radius:0 3px 3px 0}
+.warn strong{color:var(--shu)}
+.tip{border-left:3px solid var(--matsu);background:#fff;padding:12px 14px;margin:0 0 14px;border-radius:0 3px 3px 0}
+
+.leg{position:relative;padding-left:22px;margin-bottom:14px}
+.leg:before{content:"";position:absolute;left:4px;top:9px;width:7px;height:7px;
+  border-radius:1px;background:var(--ai)}
+.leg b{display:block;font-size:14px}
+.leg span{font-size:12.5px;color:var(--ink-2)}
+
+.jp{background:#fff;border:1px solid var(--rule);border-radius:3px;padding:11px 13px;margin:0 0 9px}
+.jp b{display:block;font-size:14px;margin-bottom:3px}
+.jp span{font-size:12.5px;color:var(--ink-2)}
+
+footer{padding:24px 16px;color:var(--ink-3);font-size:11.5px;line-height:1.7}
+@media print{nav{display:none}body{background:#fff}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">Kyoto Transport · 5 Days</div>
+  <h1>京都交通攻略<small>2026 / 8 / 29 — 9 / 2 · 御宿野乃七條 → 丸福樓</small></h1>
+</header>
+
+<nav>
+  <a href="#ic">Suica</a>
+  <a href="#airport">機場往返</a>
+  <a href="#modes">四種工具</a>
+  <a href="#daily">每日路線</a>
+  <a href="#taxi">計程車</a>
+  <a href="#tickets">票務</a>
+  <a href="#cash">現金</a>
+  <a href="#jp">實用日文</a>
+  <a href="#traps">常見地雷</a>
+</nav>
+
+<main>
+
+<section id="ic">
+  <h2>一、Suica（Apple Pay）就夠了</h2>
+  <p class="lede">不用另外辦 ICOCA。信用卡儲值已測試成功，出發前先充飽就好。</p>
+
+  <p>Suica 和 ICOCA 互通，這趟會用到的 <strong>JR、地鐵烏丸線／東西線、京阪、近鐵、阪急、市巴士</strong> 全部刷得過，便利商店和自動販賣機也能付款。<strong>不用買任何周遊券</strong>——你們的移動範圍集中在京都市區加一趟宇治，各種 pass 的門檻都達不到，單程刷卡最划算。</p>
+
+  <div class="tip">
+    <p class="small" style="margin:0">京都市區單程多在 200–300 日圓。兩個人各充 5,000 日圓很夠用，不夠隨時能加。萬一哪天信用卡儲值突然被擋（海外卡偶爾會觸發防詐機制），車站售票機和便利商店櫃檯都能用現金手動儲值，不會卡住。</p>
+  </div>
+
+  <h3>出發前設定好這兩件事</h3>
+  <div class="card">
+    <h4>設成「快速交通卡」</h4>
+    <p class="small">設定 → 錢包與 Apple Pay → 快速交通卡。設好之後不用 Face ID、直接感應就過閘門，尖峰時段差很多。</p>
+  </div>
+  <div class="card">
+    <h4>兩個人各開一張</h4>
+    <p class="small">不能共用一支手機刷兩次。男友的 iPhone 要自己開一張、自己充值。</p>
+  </div>
+
+  <div class="warn">
+    <p style="margin:0 0 6px"><strong>兩個 Suica 付不了的東西</strong></p>
+    <p class="small" style="margin:0"><strong>HARUKA 的特急券</strong>——Suica 只付得起基本車資，特急券要另外買。還有<strong>手機沒電就進不去</strong>，iPhone 關機後快速交通卡還有幾小時電力儲備，但別賭，行動電源帶著。</p>
+  </div>
+</section>
+
+<section id="airport">
+  <h2>二、機場往返</h2>
+  <p class="lede">樂桃降落和起飛都在第 2 航廈，但鐵路車站在第 1 航廈。這是全程最容易出錯的地方。</p>
+
+  <h3>去程 8/29 · 不要預訂班次</h3>
+  <p>入境時間抓不準，關空的入境審查尖峰可能排四十分鐘、也可能十分鐘走完。<strong>訂死班次反而綁手綁腳</strong>，HARUKA 有自由席，現場買就好。</p>
+
+  <div class="leg"><b>13:20　抵達第 2 航廈</b><span>入境、提行李，抓一小時</span></div>
+  <div class="leg"><b>14:20　免費接駁車 T2 → T1</b><span>車程 7–10 分鐘，班次頻繁。這段一定要算進去</span></div>
+  <div class="leg"><b>14:45　HARUKA 往京都</b><span>約 80 分鐘，直達，不用轉車</span></div>
+  <div class="leg"><b>16:05　京都站下車</b><span>走到御宿野乃七條約 12 分鐘</span></div>
+
+  <h3>回程 9/2 · 這班一定要先訂指定席</h3>
+  <p>沒有第二次機會，帶著行李賭自由席不值得。用 <strong>JR-WEST ONLINE TRAIN RESERVATION</strong> 訂，挑京都站 <span class="mono">11:15–11:30</span> 之間發車那班。</p>
+
+  <div class="warn">
+    <p style="margin:0 0 6px"><strong>回程的三個時間點</strong></p>
+    <p class="small" style="margin:0">HARUKA 到的是 <strong>T1</strong>，樂桃在 <strong>T2</strong>，中間要再搭一次接駁車（約 20 分鐘含等車）。而樂桃的<strong>托運截止通常在起飛前 50 分鐘</strong>，也就是 14:25。整條鏈子沒有多餘緩衝，10:30 就要從丸福樓出發。</p>
+  </div>
+
+  <p class="small"><strong>另一種選擇：利木津巴士。</strong>京都站八条口往返關空，約 2,600 日圓、八十到一百分鐘，<strong>T1 和 T2 都有站</strong>，所以完全不用轉航廈，行李直接丟行李艙。去程搭巴士其實不錯；回程不建議，塞車風險不可控。</p>
+
+  <p class="small">另外有一種「はるか片道きっぷ」是給短期停留外國旅客的折扣票，限定一班列車的指定席——正好適合回程、不適合去程。海外或 JR-WEST 線上訂票系統買得到。</p>
+</section>
+
+<section id="modes">
+  <h2>三、京都的四種工具，怎麼選</h2>
+  <p class="lede">京都不是東京，地鐵只有兩條線，很多景點要靠別的方式。</p>
+
+  <table>
+    <tr><th>工具</th><th>什麼時候用</th><th>什麼時候別用</th></tr>
+    <tr>
+      <td>地鐵<br><span class="small" style="font-weight:400">烏丸／東西線</span></td>
+      <td>京都站 ↔ 四条烏丸、二条城。準時、不塞車、有冷氣</td>
+      <td>去東山、嵐山、金閣寺都到不了</td>
+    </tr>
+    <tr>
+      <td>京阪<br><span class="small" style="font-weight:400">本線</span></td>
+      <td>七条 ↔ 祇園四条 ↔ 三条。你們住的兩間飯店都在京阪沿線，這條線是這趟的主動脈</td>
+      <td>往西邊完全用不到</td>
+    </tr>
+    <tr>
+      <td>JR</td>
+      <td>京都站 ↔ 稻荷（兩站五分鐘）、往嵯峨嵐山</td>
+      <td>市區內大部分景點不在 JR 線上</td>
+    </tr>
+    <tr>
+      <td>市巴士</td>
+      <td>金閣寺、二条城之間這種鐵路到不了的點</td>
+      <td><strong>夏天尖峰時段能不搭就不搭</strong>，會塞、會擠、行李完全放不下</td>
+    </tr>
+  </table>
+
+  <div class="tip">
+    <p class="small" style="margin:0"><strong>判斷原則：</strong>兩個人的話，凡是市巴士要坐超過 20 分鐘、或要轉車的路段，直接叫計程車。價差通常在 1,500–2,500 日圓之間，換來的是省下三十分鐘和一身汗——八月底的京都，這筆錢很值得。</p>
+  </div>
+</section>
+
+<section id="daily">
+  <h2>四、每天怎麼移動</h2>
+  <p class="lede">每段都標了建議工具，照著走不用查。</p>
+
+  <h3>8/29　抵達日</h3>
+  <div class="leg"><b>京都站 → 御宿野乃七條</b><span>走路 12 分鐘。帶行李覺得累就叫車，起跳價就到</span></div>
+  <div class="leg"><b>飯店 → ヨドバシ（烏丸七条）</b><span>走路 5 分鐘</span></div>
+  <div class="leg"><b>京都站 → 四条（寶可夢中心）</b><span>地鐵烏丸線兩站，5 分鐘。SUINA 室町跟 26 號出口直結</span></div>
+  <div class="leg"><b>四条 → 河原町</b><span>走路 10 分鐘，沿四条通往東，一路都是店</span></div>
+  <div class="leg"><b>河原町 → 飯店</b><span>阪急京都河原町 → 烏丸 → 轉地鐵，或直接計程車 15 分鐘</span></div>
+
+  <h3>8/30　東山一日</h3>
+  <div class="leg"><b>飯店 → 清水寺</b><span>計程車 15 分鐘最省事。早上七點多路上很空，車資約 1,300 日圓</span></div>
+  <div class="leg"><b>清水寺 → 高台寺 → 八坂神社</b><span>全程走路，一路往北下坡</span></div>
+  <div class="leg"><b>八坂 → 十二段家（祇園）</b><span>走路 8 分鐘</span></div>
+  <div class="leg"><b>祇園 → 三条京阪（檀王法林寺）</b><span>走路 12 分鐘，或京阪一站</span></div>
+  <div class="leg"><b>三条 → 錦市場 → 平等寺</b><span>一路往南走，各約 10 分鐘</span></div>
+  <div class="leg"><b>四条烏丸 → 三条大橋（星巴克）</b><span>走路 15 分鐘，或地鐵烏丸線一站再走</span></div>
+  <div class="leg"><b>河原町 → 飯店</b><span>深夜從 Rokkaku Ace 回去，直接計程車</span></div>
+
+  <h3>8/31　伏見稻荷 + 宇治</h3>
+  <div class="leg"><b>飯店 → 京都站 → 稻荷</b><span>JR 奈良線兩站、5 分鐘，走到京都站 12 分鐘。<strong>只有普通車停稻荷，みやこ路快速過站不停</strong></span></div>
+  <div class="leg"><b>稻荷 → 京都站 → 涉成園</b><span>同樣搭普通車回京都站，再往北走約 10 分鐘</span></div>
+  <div class="leg"><b>京都站 → JR 宇治</b><span>JR 奈良線，みやこ路快速約 20 分鐘、普通車約 30 分。上車前確認車種</span></div>
+  <div class="leg"><b>JR 宇治 → JR 小倉</b><span>奈良線南下一站、約 4 分鐘。<strong>只有普通車停小倉，快速會過站不停</strong></span></div>
+  <div class="leg"><b>JR 小倉站 → Nintendo Museum</b><span>走路約 8 分鐘（近鐵小倉站則是 5 分鐘）</span></div>
+  <div class="leg"><b>京都站 → 御宿野乃取行李 → 丸福樓</b><span>走 7 分鐘取行李，再計程車 10 分鐘</span></div>
+
+  <h3>9/1　嵐山 → 金閣寺 → 二条城</h3>
+  <div class="leg"><b>丸福樓 → 嵐山</b><span>走到京都站搭 JR 嵯峨野線到嵯峨嵐山，約 45 分鐘。<strong>早上七點出發，竹林要趕在人潮前</strong></span></div>
+  <div class="leg"><b>嵐山 → 金閣寺</b><span>建議計程車，25 分鐘、3,000 日圓出頭。搭車要 JR 嵯峨嵐山 → 円町，再轉市巴士 205，時間差不多但很擠</span></div>
+  <div class="leg"><b>金閣寺 → 二条城</b><span>市巴士 12 號約 30 分鐘，或計程車 20 分鐘</span></div>
+  <div class="leg"><b>二条城 → 丸福樓</b><span>地鐵東西線 → 烏丸御池轉烏丸線 → 京都站，或計程車 20 分鐘</span></div>
+  <div class="leg"><b>丸福樓 → 祇園（晚餐）→ FUREK → 丸福樓</b><span>京阪七条 → 祇園四条兩站。晚上這一圈全部走得到，不用搭車</span></div>
+
+  <h3>9/2　回程</h3>
+  <div class="leg"><b>丸福樓 → 京都站</b><span>計程車 15 分鐘。帶行李不要走路</span></div>
+  <div class="leg"><b>京都站 → 關西機場 T1 → T2</b><span>HARUKA 80 分鐘＋接駁車 20 分鐘</span></div>
+</section>
+
+<section id="taxi">
+  <h2>五、計程車</h2>
+  <p class="lede">這趟建議搭的次數不少，先知道怎麼運作。</p>
+
+  <p>京都計程車起跳約 <strong>500 日圓（1 公里出頭）</strong>，市區內短程通常落在 1,000–2,000 日圓。兩個人分攤的話，很多路段比買兩張車票加轉乘還划算。</p>
+
+  <div class="card">
+    <h4>叫車方式</h4>
+    <p class="small"><strong>路邊攔</strong>——擋風玻璃左下顯示紅字「空車」的可以攔。京都市區很好攔，但清水寺、金閣寺這種景點出口常常有排隊。<br>
+    <strong>App</strong>——GO 或 DiDi，兩者都有中文介面，可以先在台灣下載註冊、綁好信用卡。深夜和下雨時特別有用。<br>
+    <strong>請店家或飯店代叫</strong>——最省事，尤其是晚餐後從祇園或木屋町回飯店。</p>
+  </div>
+
+  <div class="warn">
+    <p class="small" style="margin:0"><strong>後車門是自動的</strong>，會自己開自己關，不要伸手去拉，也不要自己關。這是日本計程車最常見的觀光客失誤。</p>
+  </div>
+</section>
+
+<section id="tickets">
+  <h2>六、哪些票要先訂，哪些現場買</h2>
+  <p class="lede">出發前把左邊那欄解決掉，剩下的到現場再說。</p>
+
+  <h3>一定要事先訂</h3>
+  <table>
+    <tr><th>項目</th><th>怎麼訂</th></tr>
+    <tr><td>9/2 回程<br><span class="small" style="font-weight:400">HARUKA 指定席</span></td>
+      <td>JR-WEST ONLINE TRAIN RESERVATION，挑京都站 <span class="mono">11:15–11:30</span> 發車那班。<strong>沒有第二次機會</strong></td></tr>
+    <tr><td>う桶や う<br><span class="small" style="font-weight:400">9/1 晚餐</span></td>
+      <td>只收電話，075-551-9966。週一公休</td></tr>
+    <tr><td>carta.<br><span class="small" style="font-weight:400">8/31 晚餐、9/2 早餐</span></td>
+      <td>丸福樓 075-353-3355。晚餐要從 9/1 改到 8/31</td></tr>
+  </table>
+  <p class="small">任天堂博物館、十二段家、Rokkaku Ace 已經訂好。</p>
+
+  <h3>建議事先訂</h3>
+  <div class="card">
+    <h4>大雲院 祇園閣</h4>
+    <p class="small">預約優先制，可從「京都觀光 Navi」網站訂，有空位也接受當日現場報名。平日早上應該不用搶，但先訂比較安心。</p>
+  </div>
+  <div class="card">
+    <h4>二条城</h4>
+    <p class="small">有官方 WEB 票，先買可以跳過售票口排隊。夏天那裡人不少。</p>
+  </div>
+
+  <h3>現場買就好</h3>
+  <p>清水寺、高台寺、檀王法林寺、涉成園、金閣寺。<strong>平等寺、伏見稻荷、嵐山竹林、八坂神社免費。</strong></p>
+</section>
+
+<section id="cash">
+  <h2>七、現金還是刷卡</h2>
+  <p class="lede">寺廟基本上都是現金，而寺廟正好佔了這趟的大半。</p>
+
+  <div class="warn">
+    <p style="margin:0 0 6px"><strong>金閣寺只收現金</strong></p>
+    <p class="small" style="margin:0">它排在 9/1 的中段，那時身上零錢可能已經用得差不多。前一晚先確認。</p>
+  </div>
+
+  <h3>只收現金</h3>
+  <p>各寺拜觀料、御守、御朱印、錦市場的小攤、八坂通和二年坂的個人店家。</p>
+
+  <h3>可以刷卡</h3>
+  <p>ヨドバシ（美容儀刷卡順便賺回饋）、百貨公司、連鎖餐廳、飯店、二条城 WEB 票。計程車現在大多能刷卡或用 IC 卡，但小車行不一定。</p>
+
+  <h3>要帶多少</h3>
+  <table>
+    <tr><th>項目</th><th class="fare">每人</th></tr>
+    <tr><td>清水寺</td><td class="fare">500</td></tr>
+    <tr><td>高台寺（特別公開）</td><td class="fare">800</td></tr>
+    <tr><td>大雲院 祇園閣</td><td class="fare">約 1,000</td></tr>
+    <tr><td>檀王法林寺 本堂</td><td class="fare">300</td></tr>
+    <tr><td>涉成園＋閬風亭</td><td class="fare">1,200</td></tr>
+    <tr><td>金閣寺</td><td class="fare">500</td></tr>
+    <tr><td>二条城＋二之丸御殿</td><td class="fare">1,300</td></tr>
+    <tr><td><strong>拜觀料小計</strong></td><td class="fare"><strong>約 5,600</strong></td></tr>
+  </table>
+  <p>再加上錦市場、御守、宇治的午餐和小店，<strong>兩人抓六到八萬日圓現金</strong>比較安全，美容儀那筆另外刷卡。不夠的話 7-11 的 ATM 收海外卡，京都站和四条一帶到處都是。</p>
+
+  <div class="tip">
+    <p class="small" style="margin:0"><strong>免稅還是舊制。</strong>新的退稅方式 11 月才上路，你們仍是結帳當下直接扣 10%，不用在機場排隊。記得帶護照。ヨドバシ 結帳時選免稅、不要選積分——點數帶不回台灣。</p>
+  </div>
+</section>
+
+<section id="jp">
+  <h2>八、用得到的日文</h2>
+  <p class="lede">給司機看螢幕最快，但這幾句講得出來會順很多。</p>
+
+  <div class="jp"><b>ここまでお願いします</b><span>ko-ko made onegai shimasu ／ 請載我到這裡（配手機地圖）</span></div>
+  <div class="jp"><b>領収書をください</b><span>ryoushuusho o kudasai ／ 請給我收據</span></div>
+  <div class="jp"><b>◯◯駅までいくらですか</b><span>到 ◯◯ 站大概多少錢</span></div>
+  <div class="jp"><b>この電車は◯◯に止まりますか</b><span>這班車有停 ◯◯ 嗎</span></div>
+  <div class="jp"><b>Suicaにチャージしたいです</b><span>我想儲值 Suica（現金儲值時用）</span></div>
+  <div class="jp"><b>免税でお願いします</b><span>menzei de onegai shimasu ／ 請幫我辦免稅（買美容儀時用）</span></div>
+</section>
+
+<section id="traps">
+  <h2>九、這趟特別要小心的</h2>
+
+  <div class="warn">
+    <p style="margin:0 0 6px"><strong>1　樂桃在第 2 航廈</strong></p>
+    <p class="small" style="margin:0">去回都要多轉一次接駁車。9/2 忘記這件事就是趕不上飛機。</p>
+  </div>
+
+  <div class="warn">
+    <p style="margin:0 0 6px"><strong>2　奈良線的快速會跳過稻荷和小倉</strong></p>
+    <p class="small" style="margin:0">8/31 一整天都在奈良線上，而<strong>稻荷、小倉這兩站只有普通車停</strong>，みやこ路快速直接過站不停。下午還要趕 14:30 的博物館指定入場，上錯車代價很大。月台顯示器上確認是「普通」再上。</p>
+  </div>
+
+  <div class="warn">
+    <p style="margin:0 0 6px"><strong>3　夏天的市巴士</strong></p>
+    <p class="small" style="margin:0">觀光路線（尤其 100、206 號）在旺季會塞到動不了，車上又擠又熱。行程裡凡是寫「計程車」的段落，別為了省一千日圓改搭巴士。</p>
+  </div>
+
+  <div class="warn">
+    <p style="margin:0 0 6px"><strong>4　八月底的體感溫度</strong></p>
+    <p class="small" style="margin:0">35 度以上，每個「走路 15 分鐘」實際會變成 25 分鐘。水、帽子、涼感巾要帶，行程裡的步行時間都要往上抓。</p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  車資與時間為概估，出發前建議用 Google Maps 或 Yahoo!乗換案内 再確認一次當天班次。<br>
+  京都的鐵路系統分屬 JR、京阪、近鐵、阪急、嵐電多家公司，轉乘時注意是否要出站再進站。
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>京都旅行日文手冊</title>
+<style>
+:root{
+  --paper:#EDEBE4;--card:#FCFBF8;--ink:#1A2129;--ink-2:#5C6873;--ink-3:#959DA4;
+  --rule:#D8D5CC;--shu:#B8442E;--matsu:#4B6650;--ai:#2C4560;--kin:#A8813C;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:"Hiragino Sans","PingFang TC","Noto Sans TC",system-ui,sans-serif;
+  font-size:16px;line-height:1.7;padding-bottom:40px;
+}
+
+header{padding:26px 20px 20px;background:var(--card);border-bottom:1px solid var(--rule)}
+.eyebrow{font-size:10px;letter-spacing:.36em;color:var(--ink-3);text-transform:uppercase}
+h1{margin:11px 0 0;font-size:27px;font-weight:800;letter-spacing:-.02em;line-height:1.2}
+h1 small{display:block;font-size:12.5px;font-weight:500;color:var(--ink-2);margin-top:9px;letter-spacing:.03em}
+
+nav{position:sticky;top:0;z-index:20;display:flex;overflow-x:auto;scrollbar-width:none;
+  background:rgba(237,235,228,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--rule)}
+nav::-webkit-scrollbar{display:none}
+nav a{flex:0 0 auto;padding:12px 15px;text-decoration:none;white-space:nowrap;
+  font:700 13px/1.2 inherit;color:var(--ink-3);border-bottom:2px solid transparent}
+nav a:active{color:var(--ink);border-bottom-color:var(--shu)}
+
+section{padding:26px 16px 6px}
+h2{font-size:19px;font-weight:800;margin:0 0 4px;letter-spacing:-.01em;scroll-margin-top:52px}
+.lede{color:var(--ink-2);font-size:13px;margin:0 0 16px}
+
+.p{background:var(--card);border:1px solid var(--rule);border-radius:3px;padding:13px 14px;margin:0 0 10px}
+.zh{font-size:13px;color:var(--ink-2);margin:0 0 7px}
+.jp{font-size:18px;font-weight:700;line-height:1.5;margin:0 0 6px;letter-spacing:.01em}
+.rp{font:600 12px/1.5 ui-monospace,Menlo,monospace;color:var(--ai);margin:0 0 3px;letter-spacing:.02em}
+.kn{font-size:13.5px;color:var(--shu);margin:0;font-weight:600}
+.kn b{font-weight:600;opacity:.55;font-size:11.5px;margin-right:4px;letter-spacing:.1em}
+.tip{font-size:12px;color:var(--ink-3);margin:8px 0 0;line-height:1.6;border-top:1px dashed var(--rule);padding-top:8px}
+
+.mini{background:none;border:0;padding:0;margin:0 0 14px}
+.mini .row{display:flex;gap:10px;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--rule)}
+.mini .row:last-child{border-bottom:0}
+.mini .a{flex:0 0 96px;font-size:12.5px;color:var(--ink-2)}
+.mini .b{flex:1}
+.mini .b i{display:block;font-style:normal;font-size:15.5px;font-weight:700}
+.mini .b span{display:block;font:600 11.5px/1.5 ui-monospace,Menlo,monospace;color:var(--ai)}
+.mini .b em{display:block;font-style:normal;font-size:12.5px;color:var(--shu);font-weight:600}
+
+.note{border-left:3px solid var(--matsu);background:var(--card);padding:12px 14px;margin:14px 0;border-radius:0 3px 3px 0;font-size:13px;line-height:1.7}
+.warn{border-left:3px solid var(--shu);background:var(--card);padding:12px 14px;margin:14px 0;border-radius:0 3px 3px 0;font-size:13px;line-height:1.7}
+.warn b{color:var(--shu)}
+
+footer{padding:26px 20px 34px;text-align:center;color:var(--ink-3);font-size:11.5px;line-height:1.8}
+footer .rule{width:26px;height:1px;background:var(--rule);margin:0 auto 14px}
+@media (min-width:640px){.wrap{max-width:560px;margin:0 auto;box-shadow:0 0 60px rgba(26,33,41,.07)}}
+@media print{nav{display:none}body{background:#fff}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">Kyoto · Survival Japanese</div>
+  <h1>旅行日文手冊<small>2026 / 8 / 29 — 9 / 2 · 照著念就好，不用學文法</small></h1>
+</header>
+
+<nav>
+  <a href="#base">萬用</a>
+  <a href="#shop">購物</a>
+  <a href="#food">餐廳</a>
+  <a href="#temple">寺廟</a>
+  <a href="#move">交通</a>
+  <a href="#hotel">飯店</a>
+  <a href="#help">出狀況</a>
+  <a href="#num">數字</a>
+</nav>
+
+<div class="note" style="margin:16px 16px 0">
+  <b>怎麼用這本：</b>紅字是中文空耳，照著念八成聽得懂；藍字是羅馬拼音，給你對照重音用。真的講不出來就<b>直接把日文那行拿給對方看</b>，日本人看字比聽音準確得多。
+</div>
+
+<!-- ══════ 萬用 ══════ -->
+<section id="base">
+  <h2>一、萬用五句</h2>
+  <p class="lede">這五句撐得住九成場面。</p>
+
+  <div class="p">
+    <p class="zh">不好意思／請問一下（叫住人、擠過去、道歉都能用）</p>
+    <p class="jp">すみません</p>
+    <p class="rp">sumimasen</p>
+    <p class="kn"><b>空耳</b>斯咪媽線</p>
+    <p class="tip">全日本最好用的一句。想問路、想點餐、想擠過人群，先講這句就對了。</p>
+  </div>
+
+  <div class="p">
+    <p class="zh">謝謝</p>
+    <p class="jp">ありがとうございます</p>
+    <p class="rp">arigatou gozaimasu</p>
+    <p class="kn"><b>空耳</b>阿哩嘎豆 狗吒衣媽斯</p>
+  </div>
+
+  <div class="p">
+    <p class="zh">麻煩你了／請（拜託對方做某事時加在句尾）</p>
+    <p class="jp">お願いします</p>
+    <p class="rp">onegai shimasu</p>
+    <p class="kn"><b>空耳</b>歐內嘎伊 西媽斯</p>
+    <p class="tip">超好用。指著菜單說「これ、お願いします」就是「這個，麻煩你」。</p>
+  </div>
+
+  <div class="p">
+    <p class="zh">這個</p>
+    <p class="jp">これ</p>
+    <p class="rp">kore</p>
+    <p class="kn"><b>空耳</b>口勒</p>
+    <p class="tip">配上手指，戰鬥力翻倍。「これ、ください」＝這個，給我。</p>
+  </div>
+
+  <div class="p">
+    <p class="zh">聽不懂／我不會日文</p>
+    <p class="jp">日本語わかりません</p>
+    <p class="rp">nihongo wakarimasen</p>
+    <p class="kn"><b>空耳</b>你紅狗 哇卡哩媽線</p>
+    <p class="tip">講完對方通常會改用簡單日文、比手畫腳，或拿翻譯機出來。不用尷尬。</p>
+  </div>
+</section>
+
+<!-- ══════ 購物 ══════ -->
+<section id="shop">
+  <h2>二、購物</h2>
+  <p class="lede">8/29 ヨドバシ 買美容儀、UNIQLO、藥妝、錦市場都用得到。</p>
+
+  <div class="p">
+    <p class="zh">請幫我辦免稅</p>
+    <p class="jp">免税でお願いします</p>
+    <p class="rp">menzei de onegai shimasu</p>
+    <p class="kn"><b>空耳</b>面賊 day 歐內嘎伊西媽斯</p>
+    <p class="tip">結帳前先講。護照要帶著，會直接扣掉 10%。</p>
+  </div>
+
+  <div class="p">
+    <p class="zh">可以刷卡嗎？</p>
+    <p class="jp">カードで払えますか</p>
+    <p class="rp">kaado de haraemasu ka</p>
+    <p class="kn"><b>空耳</b>卡–豆 day 哈啦 A 媽斯卡</p>
+  </div>
+
+  <div class="p">
+    <p class="zh">這個多少錢？</p>
+    <p class="jp">これ、いくらですか</p>
+    <p class="rp">kore, ikura desu ka</p>
+    <p class="kn"><b>空耳</b>口勒 伊哭啦 day 斯卡</p>
+  </div>
+
+  <div class="p">
+    <p class="zh">可以試穿嗎？</p>
+    <p class="jp">試着してもいいですか</p>
+    <p class="rp">shichaku shite mo ii desu ka</p>
+    <p class="kn"><b>空耳</b>西掐哭 西day摸 衣–day斯卡</p>
+  </div>
+
+  <div class="p">
+    <p class="zh">這個充電是 USB-C 嗎？（買美容儀時問）</p>
+    <p class="jp">充電は USB-C ですか</p>
+    <p class="rp">juuden wa USB-C desu ka</p>
+    <p class="kn"><b>空耳</b>啾–day恩 哇 USB-C day斯卡</p>
+    <p class="tip">關係到台灣 110V 能不能直接用，一定要問。</p>
+  </div>
+
+  <div class="p">
+    <p class="zh">保證書可以蓋章嗎？</p>
+    <p class="jp">保証書にスタンプをお願いします</p>
+    <p class="rp">hoshousho ni sutanpu o onegai shimasu</p>
+    <p class="kn"><b>空耳</b>齁休–休 你 斯坦普 歐 歐內嘎伊西媽斯</p>
+    <p class="tip">日本國內保固要靠蓋章的保證書。朋友之後幫你送修時會用到。</p>
+  </div>
+
+  <div class="p">
+    <p class="zh">我只是看看（被搭話時）</p>
+    <p class="jp">見ているだけです</p>
+    <p class="rp">mite iru dake desu</p>
+    <p class="kn"><b>空耳</b>米day衣魯 打K day斯</p>
+  </div>
+
+  <div class="p">
+    <p class="zh">請給我袋子</p>
+    <p class="jp">袋をください</p>
+    <p class="rp">fukuro o kudasai</p>
+    <p class="kn"><b>空耳</b>夫哭摟 歐 哭達賽</p>
+    <p class="tip">日本袋子多半要錢，會問你要不要。</p>
+  </div>
+</section>
+
+<!-- ══════ 餐廳 ══════ -->
+<section id="food">
+  <h2>三、餐廳</h2>
+  <p class="lede">十二段家、Rokkaku Ace、う桶や う、たつ市、carta. 都有訂位。</p>
+
+  <div class="p">
+    <p class="zh">我有訂位，姓 ◯◯，兩位</p>
+    <p class="jp">予約している ◯◯ です。二名です</p>
+    <p class="rp">yoyaku shite iru ◯◯ desu. nimei desu</p>
+    <p class="kn"><b>空耳</b>優呀哭 西day衣魯 ◯◯ day斯。你妹– day斯</p>
+    <p class="tip">進門講這句最快。◯◯ 放你的姓。</p>
+  </div>
+
+  <div class="p">
+    <p class="zh">兩位（沒訂位時，走進店裡說）</p>
+    <p class="jp">二人です</p>
+    <p class="rp">futari desu</p>
+    <p class="kn"><b>空耳</b>夫他哩 day斯</p>
+  </div>
+
+  <div class="p">
+    <p class="zh">請給我這個</p>
+    <p class="jp">これをください</p>
+    <p class="rp">kore o kudasai</p>
+    <p class="kn"><b>空耳</b>口勒 歐 哭達賽</p>
+    <p class="tip">指菜單就好。要兩份就說「これを二つ」（口勒歐 夫他次）。</p>
+  </div>
+
+  <div class="p">
+    <p class="zh">有推薦的嗎？</p>
+    <p class="jp">おすすめはありますか</p>
+    <p class="rp">osusume wa arimasu ka</p>
+    <p class="kn"><b>空耳</b>歐斯斯妹 哇 阿哩媽斯卡</p>
+  </div>
+
+  <div class="p">
+    <p class="zh">有中文（英文）菜單嗎？</p>
+    <p class="jp">中国語のメニューはありますか</p>
+    <p class="rp">chuugokugo no menyuu wa arimasu ka</p>
+    <p class="kn"><b>空耳</b>啾–狗哭狗 no 妹妞– 哇 阿哩媽斯卡</p>
+    <p class="tip">英文的話把「中国語」換成「英語」（eigo／A–狗）。</p>
+  </div>
+
+  <div class="p">
+    <p class="zh">很好吃！</p>
+    <p class="jp">美味しいです</p>
+    <p class="rp">oishii desu</p>
+    <p class="kn"><b>空耳</b>歐衣西– day斯</p>
+  </div>
+
+  <div class="p">
+    <p class="zh">麻煩結帳</p>
+    <p class="jp">お会計お願いします</p>
+    <p class="rp">okaikei onegai shimasu</p>
+    <p class="kn"><b>空耳</b>歐卡伊K– 歐內嘎伊西媽斯</p>
+  </div>
+
+  <div class="p">
+    <p class="zh">可以外帶嗎？</p>
+    <p class="jp">持ち帰りできますか</p>
+    <p class="rp">mochikaeri dekimasu ka</p>
+    <p class="kn"><b>空耳</b>摸七卡A哩 day key媽斯卡</p>
+  </div>
+
+  <div class="warn">
+    <b>錦市場的規矩：</b>現在多數店家<b>禁止邊走邊吃</b>，要在店前的小空間吃完再走。垃圾也請還給該店家，不要帶到下一攤。
+  </div>
+</section>
+
+<!-- ══════ 寺廟 ══════ -->
+<section id="temple">
+  <h2>四、寺廟神社</h2>
+  <p class="lede">清水寺、高台寺、祇園閣、檀王法林寺、平等寺、伏見稻荷、涉成園、二条城。</p>
+
+  <div class="mini">
+    <div class="row"><div class="a">大人兩張</div><div class="b"><i>大人二枚</i><span>otona nimai</span><em>歐豆娜 你賣</em></div></div>
+    <div class="row"><div class="a">拜觀券</div><div class="b"><i>拝観券</i><span>haikanken</span><em>哈伊卡恩K恩</em></div></div>
+    <div class="row"><div class="a">御朱印</div><div class="b"><i>御朱印をお願いします</i><span>goshuin o onegai shimasu</span><em>狗嘘印 歐 歐內嘎伊西媽斯</em></div></div>
+    <div class="row"><div class="a">御守在哪</div><div class="b"><i>お守りはどこですか</i><span>omamori wa doko desu ka</span><em>歐媽摸哩 哇 都口day斯卡</em></div></div>
+    <div class="row"><div class="a">可以拍照嗎</div><div class="b"><i>写真を撮ってもいいですか</i><span>shashin o totte mo ii desu ka</span><em>蝦新 歐 偷day摸 衣–day斯卡</em></div></div>
+  </div>
+
+  <div class="p">
+    <p class="zh">請給我寵物御守（平等寺用）</p>
+    <p class="jp">ペットのお守りをください</p>
+    <p class="rp">petto no omamori o kudasai</p>
+    <p class="kn"><b>空耳</b>配豆 no 歐媽摸哩 歐 哭達賽</p>
+  </div>
+
+  <div class="p">
+    <p class="zh">請問還有黑招財貓嗎？（檀王法林寺用）</p>
+    <p class="jp">黒招き猫はまだありますか</p>
+    <p class="rp">kuro manekineko wa mada arimasu ka</p>
+    <p class="kn"><b>空耳</b>哭摟 媽內key內口 哇 媽打 阿哩媽斯卡</p>
+  </div>
+
+  <div class="warn">
+    <b>會看到的告示牌：</b>「撮影禁止」＝禁止攝影（二之丸御殿、祇園閣三樓）／「土足厳禁」＝要脫鞋／「私有地」＝私人土地不要進去也不要拍（花見小路）。
+  </div>
+</section>
+
+<!-- ══════ 交通 ══════ -->
+<section id="move">
+  <h2>五、交通</h2>
+  <p class="lede">JR、地鐵、京阪、近鐵、小火車、計程車。</p>
+
+  <div class="p">
+    <p class="zh">請載我到這裡（給司機看手機地圖）</p>
+    <p class="jp">ここまでお願いします</p>
+    <p class="rp">koko made onegai shimasu</p>
+    <p class="kn"><b>空耳</b>口口 媽day 歐內嘎伊西媽斯</p>
+    <p class="tip">最實用的一句。地圖給他看就好，不用會念地名。</p>
+  </div>
+
+  <div class="p">
+    <p class="zh">這班車有停 ◯◯ 嗎？</p>
+    <p class="jp">この電車は ◯◯ に止まりますか</p>
+    <p class="rp">kono densha wa ◯◯ ni tomarimasu ka</p>
+    <p class="kn"><b>空耳</b>口no day恩蝦 哇 ◯◯ 你 偷媽哩媽斯卡</p>
+    <p class="tip">8/31 去稻荷、9/1 回小倉都只有<b>普通車</b>停，這句很關鍵。</p>
+  </div>
+
+  <div class="p">
+    <p class="zh">請給我收據</p>
+    <p class="jp">領収書をください</p>
+    <p class="rp">ryoushuusho o kudasai</p>
+    <p class="kn"><b>空耳</b>溜–嘘–休 歐 哭達賽</p>
+  </div>
+
+  <div class="p">
+    <p class="zh">我想儲值 Suica</p>
+    <p class="jp">Suica にチャージしたいです</p>
+    <p class="rp">Suica ni chaaji shitai desu</p>
+    <p class="kn"><b>空耳</b>Suica 你 掐–吉 西他伊day斯</p>
+  </div>
+
+  <div class="mini">
+    <div class="row"><div class="a">普通車</div><div class="b"><i>普通</i><span>futsuu</span><em>夫此–</em></div></div>
+    <div class="row"><div class="a">快速</div><div class="b"><i>快速</i><span>kaisoku</span><em>卡伊搜哭</em></div></div>
+    <div class="row"><div class="a">月台</div><div class="b"><i>のりば／ホーム</i><span>noriba / hoomu</span><em>no哩巴／齁–母</em></div></div>
+    <div class="row"><div class="a">剪票口</div><div class="b"><i>改札口</i><span>kaisatsuguchi</span><em>卡伊撒次古七</em></div></div>
+    <div class="row"><div class="a">出口</div><div class="b"><i>出口</i><span>deguchi</span><em>day古七</em></div></div>
+  </div>
+
+  <div class="warn">
+    <b>計程車的後車門是自動的</b>，會自己開自己關。不要伸手拉，也不要自己關——這是觀光客最常見的失誤。
+  </div>
+</section>
+
+<!-- ══════ 飯店 ══════ -->
+<section id="hotel">
+  <h2>六、飯店</h2>
+  <p class="lede">御宿野乃七條（8/29–8/31）、丸福樓（8/31–9/2）。</p>
+
+  <div class="p">
+    <p class="zh">我要 check in，姓 ◯◯</p>
+    <p class="jp">チェックインお願いします。◯◯ です</p>
+    <p class="rp">chekku in onegai shimasu. ◯◯ desu</p>
+    <p class="kn"><b>空耳</b>切庫印 歐內嘎伊西媽斯。◯◯ day斯</p>
+  </div>
+
+  <div class="p">
+    <p class="zh">可以寄放行李嗎？（8/31 早上必用）</p>
+    <p class="jp">荷物を預かってもらえますか</p>
+    <p class="rp">nimotsu o azukatte moraemasu ka</p>
+    <p class="kn"><b>空耳</b>你摸次 歐 阿茲卡day 摸啦A媽斯卡</p>
+  </div>
+
+  <div class="p">
+    <p class="zh">我來拿寄放的行李（8/31 晚上）</p>
+    <p class="jp">預けた荷物を取りに来ました</p>
+    <p class="rp">azuketa nimotsu o tori ni kimashita</p>
+    <p class="kn"><b>空耳</b>阿茲K他 你摸次 歐 偷哩你 key媽西他</p>
+  </div>
+
+  <div class="p">
+    <p class="zh">請幫我叫計程車</p>
+    <p class="jp">タクシーを呼んでもらえますか</p>
+    <p class="rp">takushii o yonde moraemasu ka</p>
+    <p class="kn"><b>空耳</b>他哭西– 歐 用day 摸啦A媽斯卡</p>
+  </div>
+
+  <div class="mini">
+    <div class="row"><div class="a">大浴場</div><div class="b"><i>大浴場</i><span>daiyokujou</span><em>打伊優哭糾–</em></div></div>
+    <div class="row"><div class="a">夜鳴拉麵</div><div class="b"><i>夜鳴きそば</i><span>yonaki soba</span><em>優娜key 搜巴</em></div></div>
+    <div class="row"><div class="a">退房</div><div class="b"><i>チェックアウト</i><span>chekku auto</span><em>切庫 阿烏投</em></div></div>
+  </div>
+</section>
+
+<!-- ══════ 出狀況 ══════ -->
+<section id="help">
+  <h2>七、出狀況</h2>
+
+  <div class="p">
+    <p class="zh">廁所在哪裡？</p>
+    <p class="jp">トイレはどこですか</p>
+    <p class="rp">toire wa doko desu ka</p>
+    <p class="kn"><b>空耳</b>投伊勒 哇 都口day斯卡</p>
+  </div>
+
+  <div class="p">
+    <p class="zh">我有點不舒服（中暑、頭暈時）</p>
+    <p class="jp">気分が悪いです</p>
+    <p class="rp">kibun ga warui desu</p>
+    <p class="kn"><b>空耳</b>key布恩 嘎 哇魯伊day斯</p>
+    <p class="tip">八月底很熱，這句希望用不到，但要會。</p>
+  </div>
+
+  <div class="p">
+    <p class="zh">請給我水</p>
+    <p class="jp">お水をください</p>
+    <p class="rp">omizu o kudasai</p>
+    <p class="kn"><b>空耳</b>歐米茲 歐 哭達賽</p>
+  </div>
+
+  <div class="p">
+    <p class="zh">附近有藥局嗎？</p>
+    <p class="jp">近くに薬局はありますか</p>
+    <p class="rp">chikaku ni yakkyoku wa arimasu ka</p>
+    <p class="kn"><b>空耳</b>七卡哭你 呀庫叫哭 哇 阿哩媽斯卡</p>
+  </div>
+
+  <div class="p">
+    <p class="zh">我東西掉了／找不到</p>
+    <p class="jp">忘れ物をしました</p>
+    <p class="rp">wasuremono o shimashita</p>
+    <p class="kn"><b>空耳</b>哇斯勒摸no 歐 西媽西他</p>
+  </div>
+</section>
+
+<!-- ══════ 數字 ══════ -->
+<section id="num">
+  <h2>八、數字與時間</h2>
+  <p class="lede">聽價錢和班次時用得到。</p>
+
+  <div class="mini">
+    <div class="row"><div class="a">一</div><div class="b"><i>いち</i><span>ichi</span><em>伊七</em></div></div>
+    <div class="row"><div class="a">二</div><div class="b"><i>に</i><span>ni</span><em>你</em></div></div>
+    <div class="row"><div class="a">三</div><div class="b"><i>さん</i><span>san</span><em>撒恩</em></div></div>
+    <div class="row"><div class="a">四</div><div class="b"><i>よん</i><span>yon</span><em>用</em></div></div>
+    <div class="row"><div class="a">五</div><div class="b"><i>ご</i><span>go</span><em>狗</em></div></div>
+    <div class="row"><div class="a">六</div><div class="b"><i>ろく</i><span>roku</span><em>摟哭</em></div></div>
+    <div class="row"><div class="a">七</div><div class="b"><i>なな</i><span>nana</span><em>娜娜</em></div></div>
+    <div class="row"><div class="a">八</div><div class="b"><i>はち</i><span>hachi</span><em>哈七</em></div></div>
+    <div class="row"><div class="a">九</div><div class="b"><i>きゅう</i><span>kyuu</span><em>Q–</em></div></div>
+    <div class="row"><div class="a">十</div><div class="b"><i>じゅう</i><span>juu</span><em>啾–</em></div></div>
+    <div class="row"><div class="a">百</div><div class="b"><i>ひゃく</i><span>hyaku</span><em>合呀哭</em></div></div>
+    <div class="row"><div class="a">千</div><div class="b"><i>せん</i><span>sen</span><em>誰恩</em></div></div>
+    <div class="row"><div class="a">萬</div><div class="b"><i>まん</i><span>man</span><em>媽恩</em></div></div>
+    <div class="row"><div class="a">日圓</div><div class="b"><i>円</i><span>en</span><em>A恩</em></div></div>
+  </div>
+
+  <div class="note">
+    <b>算價錢的訣竅：</b>日文說「せんななひゃく」＝1,700。聽不懂就直接說「書いてください」（<span style="color:var(--shu);font-weight:600">卡伊day 哭達賽</span>）＝請寫下來。收銀機的螢幕也都看得到數字，不用緊張。
+  </div>
+</section>
+
+<footer>
+  <div class="rule"></div>
+  講不出來就指、就比、就給對方看螢幕。<br>
+  日本人對願意開口的觀光客都很有耐心。
+</footer>
+
+</div>
+</body>
+</html>
