@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>京都五天四夜 · 手冊</title>
+<style>
+:root{
+  --paper:#EDEBE4;
+  --card:#FBFAF7;
+  --ink:#1A2129;
+  --ink-2:#5C6873;
+  --ink-3:#959DA4;
+  --rule:#D8D5CC;
+  --shu:#B8442E;
+  --matsu:#4B6650;
+  --ai:#2C4560;
+  --kin:#A8813C;
+  --sky:#CFD8D6;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:"Hiragino Sans","PingFang TC","Noto Sans TC",system-ui,sans-serif;
+  font-size:16px;line-height:1.75;padding-bottom:72px;
+}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+svg{display:block;width:100%;height:auto}
+
+/* ── cover ── */
+.cover{position:relative;background:var(--card);border-bottom:1px solid var(--rule)}
+.cover .art{background:linear-gradient(180deg,#E7E4DB 0%,#F3F1EA 100%)}
+.cover .txt{padding:22px 20px 26px;text-align:center}
+.cover .eyebrow{font-size:10px;letter-spacing:.4em;color:var(--ink-3);text-transform:uppercase}
+.cover h1{margin:12px 0 0;font-size:32px;font-weight:800;letter-spacing:-.02em;line-height:1.15}
+.cover .sub{margin-top:10px;font-size:13px;color:var(--ink-2);letter-spacing:.04em}
+.cover .rule{width:34px;height:2px;background:var(--shu);margin:16px auto 0}
+
+/* ── sticky nav ── */
+nav{
+  position:sticky;top:0;z-index:30;display:flex;overflow-x:auto;scrollbar-width:none;
+  background:rgba(237,235,228,.95);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--rule);
+}
+nav::-webkit-scrollbar{display:none}
+nav a{
+  flex:0 0 auto;padding:12px 16px;text-decoration:none;white-space:nowrap;
+  font:700 13px/1.25 inherit;color:var(--ink-3);border-bottom:2px solid transparent;
+}
+nav a b{display:block;font-size:10px;font-weight:600;letter-spacing:.12em;margin-top:2px}
+nav a:active,nav a.on{color:var(--ink);border-bottom-color:var(--shu)}
+
+/* ── day ── */
+.day{scroll-margin-top:56px}
+.band{position:relative}
+.band .cap{
+  position:absolute;left:20px;bottom:16px;right:20px;color:#fff;
+  text-shadow:0 1px 12px rgba(20,28,36,.55);
+}
+.band .cap .n{font:700 10px/1 inherit;letter-spacing:.34em;opacity:.9}
+.band .cap h2{margin:8px 0 0;font-size:23px;font-weight:800;letter-spacing:-.01em;line-height:1.2}
+.band .cap .d{font-size:12.5px;margin-top:5px;opacity:.92;letter-spacing:.05em}
+
+.note{
+  margin:0;padding:15px 20px;background:var(--card);
+  border-bottom:1px solid var(--rule);font-size:13.5px;color:var(--ink-2);line-height:1.7;
+}
+
+.rail{padding:20px 20px 30px 0;margin-left:20px;position:relative}
+.rail:before{
+  content:"";position:absolute;left:52px;top:32px;bottom:34px;width:1px;background:var(--rule);
+}
+.stop{position:relative;padding-left:70px;margin-bottom:16px}
+.stop .t{
+  position:absolute;left:0;top:2px;width:44px;text-align:right;
+  font-size:12px;line-height:1.4;font-weight:700;color:var(--ink-2);
+}
+.stop .t i{display:block;font-style:normal;font-weight:400;color:var(--ink-3);font-size:11px}
+.stop .dot{
+  position:absolute;left:48px;top:6px;width:9px;height:9px;border-radius:1px;
+  background:var(--paper);border:1.5px solid var(--ink-3);
+}
+.stop[data-k="eat"] .dot{background:var(--shu);border-color:var(--shu)}
+.stop[data-k="see"] .dot{background:var(--ai);border-color:var(--ai)}
+.stop[data-k="stay"] .dot{background:var(--kin);border-color:var(--kin)}
+.stop[data-k="move"] .dot{background:var(--paper);border-color:var(--rule)}
+.stop[data-k="shop"] .dot{background:var(--matsu);border-color:var(--matsu)}
+
+.stop h3{margin:0;font-size:16px;font-weight:700;line-height:1.45;letter-spacing:-.005em}
+.stop p{margin:6px 0 0;font-size:13.5px;color:var(--ink-2);line-height:1.7}
+.stop[data-k="move"] h3{font-size:14px;font-weight:600;color:var(--ink-2)}
+.key{
+  display:inline-block;margin-top:8px;padding:5px 9px;border-radius:2px;
+  font:700 11.5px/1.35 inherit;background:#fff;border:1px solid var(--rule);color:var(--ink);
+}
+.key.hot{border-color:var(--shu);color:var(--shu)}
+
+/* ── legend / footer ── */
+.legend{padding:22px 20px;background:var(--card);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.legend h4{margin:0 0 12px;font-size:11px;letter-spacing:.24em;color:var(--ink-3);font-weight:700}
+.legend ul{margin:0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:10px 18px}
+.legend li{display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--ink-2)}
+.legend i{width:9px;height:9px;border-radius:1px;display:block}
+
+.tail{padding:26px 20px 10px}
+.tail h4{margin:0 0 10px;font-size:11px;letter-spacing:.24em;color:var(--ink-3);font-weight:700}
+.tail dl{margin:0;font-size:13.5px}
+.tail dt{font-weight:700;margin-top:12px}
+.tail dd{margin:2px 0 0;color:var(--ink-2);line-height:1.7}
+footer{padding:26px 20px 34px;text-align:center;color:var(--ink-3);font-size:11.5px;line-height:1.8}
+footer .rule{width:26px;height:1px;background:var(--rule);margin:0 auto 14px}
+
+@media (min-width:640px){
+  body{font-size:16.5px}
+  .wrap{max-width:560px;margin:0 auto;background:var(--paper);
+    box-shadow:0 0 60px rgba(26,33,41,.07)}
+}
+@media print{nav{display:none}body{background:#fff}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- ══════════ COVER ══════════ -->
+<div class="cover">
+  <div class="art">
+  <svg viewBox="0 0 380 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="京都山景與五重塔">
+    <defs>
+      <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#E3E0D6"/><stop offset="100%" stop-color="#F4F2EB"/>
+      </linearGradient>
+    </defs>
+    <rect width="380" height="260" fill="url(#sky)"/>
+    <circle cx="292" cy="62" r="26" fill="#B8442E" opacity=".16"/>
+    <circle cx="292" cy="62" r="17" fill="#B8442E" opacity=".24"/>
+    <!-- far mountains -->
+    <path d="M0 150 L52 108 L96 142 L140 96 L196 148 L244 116 L300 152 L344 124 L380 152 L380 260 L0 260Z" fill="#2C4560" opacity=".16"/>
+    <path d="M0 168 L44 138 L92 166 L142 130 L188 168 L240 142 L296 172 L340 150 L380 174 L380 260 L0 260Z" fill="#4B6650" opacity=".2"/>
+    <!-- treeline -->
+    <path d="M0 196 Q22 182 40 196 Q58 180 78 196 Q96 182 116 196 Q134 180 154 196 Q172 184 192 196 Q210 180 230 196 Q248 182 268 196 Q286 180 306 196 Q324 184 344 196 Q362 182 380 196 L380 260 L0 260Z" fill="#4B6650" opacity=".3"/>
+    <!-- pagoda -->
+    <g transform="translate(190 92)" stroke="#1A2129" stroke-width="1.6" fill="none" stroke-linecap="round">
+      <line x1="0" y1="-16" x2="0" y2="-4"/>
+      <circle cx="0" cy="-19" r="2.4" fill="#B8442E" stroke="none"/>
+      <path d="M-26 -2 Q0 -12 26 -2" fill="#B8442E" opacity=".85" stroke="none"/>
+      <path d="M-26 -2 Q0 -12 26 -2"/>
+      <rect x="-13" y="0" width="26" height="15"/>
+      <path d="M-32 17 Q0 6 32 17" fill="#B8442E" opacity=".85" stroke="none"/>
+      <path d="M-32 17 Q0 6 32 17"/>
+      <rect x="-16" y="19" width="32" height="17"/>
+      <path d="M-38 38 Q0 26 38 38" fill="#B8442E" opacity=".85" stroke="none"/>
+      <path d="M-38 38 Q0 26 38 38"/>
+      <rect x="-20" y="40" width="40" height="19"/>
+      <path d="M-45 61 Q0 48 45 61" fill="#B8442E" opacity=".85" stroke="none"/>
+      <path d="M-45 61 Q0 48 45 61"/>
+      <rect x="-24" y="63" width="48" height="21"/>
+      <path d="M-53 86 Q0 72 53 86" fill="#B8442E" opacity=".85" stroke="none"/>
+      <path d="M-53 86 Q0 72 53 86"/>
+      <rect x="-27" y="88" width="54" height="24"/>
+      <line x1="-27" y1="112" x2="27" y2="112"/>
+    </g>
+    <!-- river -->
+    <path d="M0 232 Q90 220 190 232 Q290 244 380 230 L380 260 L0 260Z" fill="#2C4560" opacity=".14"/>
+    <path d="M0 238 Q95 227 190 238 Q285 249 380 236" stroke="#2C4560" stroke-width="1" fill="none" opacity=".3"/>
+    <path d="M30 246 Q60 242 88 247" stroke="#2C4560" stroke-width="1" fill="none" opacity=".22"/>
+    <path d="M232 244 Q262 240 292 245" stroke="#2C4560" stroke-width="1" fill="none" opacity=".22"/>
+  </svg>
+  </div>
+  <div class="txt">
+    <div class="eyebrow">Kyoto · Five Days</div>
+    <h1>京都五天四夜</h1>
+    <div class="sub mono">2026 / 08 / 29 — 09 / 02</div>
+    <div class="rule"></div>
+  </div>
+</div>
+
+<nav>
+  <a href="#d1">8/29<b>DAY 1</b></a>
+  <a href="#d2">8/30<b>DAY 2</b></a>
+  <a href="#d3">8/31<b>DAY 3</b></a>
+  <a href="#d4">9/1<b>DAY 4</b></a>
+  <a href="#d5">9/2<b>DAY 5</b></a>
+  <a href="#info">須知</a>
+</nav>
+
+<!-- ══════════ DAY 1 ══════════ -->
+<section class="day" id="d1">
+  <div class="band">
+  <svg viewBox="0 0 380 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="京都塔與車站夜色">
+    <rect width="380" height="150" fill="#2C4560"/>
+    <rect width="380" height="150" fill="#1A2129" opacity=".18"/>
+    <circle cx="318" cy="34" r="13" fill="#EDEBE4" opacity=".5"/>
+    <g opacity=".28" fill="#EDEBE4">
+      <rect x="0" y="96" width="46" height="54"/><rect x="52" y="82" width="34" height="68"/>
+      <rect x="92" y="104" width="40" height="46"/><rect x="240" y="88" width="38" height="62"/>
+      <rect x="284" y="100" width="52" height="50"/><rect x="342" y="90" width="38" height="60"/>
+    </g>
+    <!-- kyoto tower -->
+    <g transform="translate(180 26)" fill="#EDEBE4">
+      <rect x="-1.4" y="0" width="2.8" height="16" opacity=".85"/>
+      <ellipse cx="0" cy="24" rx="9" ry="7" opacity=".9"/>
+      <path d="M-5 30 L-11 124 L11 124 L5 30Z" opacity=".8"/>
+      <rect x="-26" y="124" width="52" height="26" opacity=".55"/>
+    </g>
+    <g opacity=".5" fill="#B8442E">
+      <circle cx="180" cy="12" r="2.6"/>
+    </g>
+    <g opacity=".22" fill="#EDEBE4">
+      <rect x="118" y="132" width="9" height="6"/><rect x="134" y="132" width="9" height="6"/>
+      <rect x="238" y="132" width="9" height="6"/><rect x="254" y="132" width="9" height="6"/>
+    </g>
+  </svg>
+    <div class="cap">
+      <div class="n">DAY ONE</div>
+      <h2>抵達 · 四条河原町 · 京都站</h2>
+      <div class="d">8 月 29 日（六）</div>
+    </div>
+  </div>
+
+  <p class="note">兩場納涼床都取消了，今晚不訂餐廳。逛街時間拉長到八點多，吃什麼當天再說。</p>
+
+  <div class="rail">
+    <div class="stop" data-k="move">
+      <div class="t">09:30<i>13:20</i></div><div class="dot"></div>
+      <h3>桃園 → 關西機場 MM024</h3>
+      <p>樂桃降落在第 2 航廈</p>
+    </div>
+    <div class="stop" data-k="move">
+      <div class="t">13:20<i>14:20</i></div><div class="dot"></div>
+      <h3>入境、提行李（T2）</h3>
+      <p>關空入境尖峰抓一小時</p>
+    </div>
+    <div class="stop" data-k="move">
+      <div class="t">14:20<i>14:40</i></div><div class="dot"></div>
+      <h3>免費接駁車 T2 → T1 車站</h3>
+      <p>鐵路車站在第 1 航廈，樂桃在第 2 航廈，一定要轉一次。約 7–10 分鐘車程，班次頻繁</p>
+    </div>
+    <div class="stop" data-k="move">
+      <div class="t">14:45<i>16:05</i></div><div class="dot"></div>
+      <h3>HARUKA → 京都站</h3>
+      <p>約 80 分鐘。去程不預訂班次：入境時間抓不準，現場買或坐自由席最有彈性</p>
+    </div>
+    <div class="stop" data-k="stay">
+      <div class="t">16:05<i>16:40</i></div><div class="dot"></div>
+      <h3>御宿野乃七條 Check-in</h3>
+      <p>京都站走過去約 12 分鐘。前兩晚住這裡。放好行李就出門，晚一點再回來</p>
+    </div>
+    <div class="stop" data-k="move">
+      <div class="t">16:45<i>17:05</i></div><div class="dot"></div>
+      <h3>京都站 → 四条</h3>
+      <p>地鐵烏丸線兩站，5 分鐘</p>
+    </div>
+    <div class="stop" data-k="shop">
+      <div class="t">17:05<i>17:50</i></div><div class="dot"></div>
+      <h3>寶可夢中心（SUINA 室町 2F）</h3>
+      <p>四条烏丸，地鐵四条站 26 號出口直結。10:00–20:00。舞妓皮卡丘、鳳王立像、京都限定商品</p>
+    </div>
+    <div class="stop" data-k="shop">
+      <div class="t">17:50<i>19:50</i></div><div class="dot"></div>
+      <h3>四条 → 河原町 逛街</h3>
+      <p>兩小時，比原本多一倍。KINDAL、KAPITAL 這種要慢慢翻的二手店放今天。多數店 20:00 打烊，最後半小時挑重點</p>
+    </div>
+    <div class="stop" data-k="move">
+      <div class="t">19:50<i>20:10</i></div><div class="dot"></div>
+      <h3>回京都站</h3>
+      <p>地鐵烏丸線。餓了就在站內或路上的便利商店買個東西墊著，正餐今晚不吃</p>
+    </div>
+    <div class="stop" data-k="shop">
+      <div class="t">20:15<i>21:15</i></div><div class="dot"></div>
+      <h3>美容儀 · ヨドバシカメラ 京都</h3>
+      <p>烏丸七条，離飯店走路 5 分鐘，開到 22:00。</p>
+      <span class="key hot">先解決美容儀再逛衣服——退稅櫃台會排隊，別拖到最後。目標 Panasonic バイタリフト RF EX（EH-SR86）。現場三件事：試 RF 溫熱感和 EMS 強度、問充電是不是 USB-C（關係到台灣 110V）、確認保證書當場蓋店章。結帳選免稅不要選積分</span>
+    </div>
+    <div class="stop" data-k="shop">
+      <div class="t">21:15<i>21:55</i></div><div class="dot"></div>
+      <h3>UNIQLO（京都ヨドバシ 4F）</h3>
+      <p>同一棟樓，不用移動。10:00–22:00，可以退稅、出示護照就直接扣。</p>
+      <span class="key">GU 在 5 樓但 21:00 就關，想逛要提前</span>
+    </div>
+    <div class="stop" data-k="move">
+      <div class="t">22:00<i>22:10</i></div><div class="dot"></div>
+      <h3>走回御宿野乃</h3>
+      <p>約 5 分鐘</p>
+    </div>
+    <div class="stop" data-k="stay">
+      <div class="t">22:15</div><div class="dot"></div>
+      <h3>夜鳴 soba → 蓮花之湯</h3>
+      <span class="key">先吃拉麵再泡湯——夜鳴 soba 只供應到 23:00，大浴場則是整夜開放。醬油清湯細捲麵，免費。大浴場 15:00–隔天早上 10:00（已確認這幾天沒有配管洗淨），除了三溫暖和 2F 瞑想之湯以外整夜都能泡，所以幾點回來都不用趕。1F 有內湯、壺湯、絲綢浴、岩風呂、奈米蒸氣三溫暖，2F 檜木瞑想之湯（微暗、溫度偏低）。溫泉水從京都府城陽市運來。 · 有刺青者謝絕使用大浴場。有刺青者謝絕使用大浴場</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ DAY 2 ══════════ -->
+<section class="day" id="d2">
+  <div class="band">
+  <svg viewBox="0 0 380 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="清水寺舞台與東山">
+    <rect width="380" height="150" fill="#4B6650"/>
+    <path d="M0 40 Q70 12 140 40 Q210 66 280 36 Q330 16 380 40 L380 150 L0 150Z" fill="#1A2129" opacity=".18"/>
+    <circle cx="56" cy="34" r="15" fill="#EDEBE4" opacity=".26"/>
+    <!-- kiyomizu stage -->
+    <g transform="translate(196 46)" stroke="#EDEBE4" stroke-width="1.7" fill="none" stroke-linecap="round" opacity=".92">
+      <path d="M-62 6 Q-30 -8 2 6" fill="#B8442E" opacity=".75" stroke="none"/>
+      <path d="M-62 6 Q-30 -8 2 6"/>
+      <rect x="-52" y="8" width="82" height="18" fill="#1A2129" fill-opacity=".12"/>
+      <path d="M-58 28 L34 28"/>
+      <line x1="-46" y1="28" x2="-46" y2="82"/><line x1="-30" y1="28" x2="-30" y2="88"/>
+      <line x1="-14" y1="28" x2="-14" y2="94"/><line x1="2" y1="28" x2="2" y2="94"/>
+      <line x1="18" y1="28" x2="18" y2="88"/><line x1="32" y1="28" x2="32" y2="80"/>
+      <line x1="-46" y1="50" x2="32" y2="50"/><line x1="-46" y1="70" x2="32" y2="70"/>
+    </g>
+    <!-- slope steps + lanterns -->
+    <g opacity=".5" stroke="#EDEBE4" stroke-width="1.4" fill="none">
+      <path d="M0 126 L36 126 L36 118 L74 118 L74 110 L112 110"/>
+    </g>
+    <g fill="#EDEBE4" opacity=".55">
+      <rect x="300" y="96" width="3" height="34"/><ellipse cx="301.5" cy="92" rx="8" ry="9"/>
+      <rect x="338" y="102" width="3" height="28"/><ellipse cx="339.5" cy="98" rx="7" ry="8"/>
+    </g>
+    <path d="M0 138 Q95 130 190 138 Q285 146 380 136 L380 150 L0 150Z" fill="#1A2129" opacity=".2"/>
+  </svg>
+    <div class="cap">
+      <div class="n">DAY TWO</div>
+      <h2>東山夏季限定 · 錦市場 · D&amp;D · 川床</h2>
+      <div class="d">8 月 30 日（日）</div>
+    </div>
+  </div>
+
+  <p class="note">全程最硬的一天。高台寺特別公開只到 8/31，今天是最後機會。早上先空景拍照、十點商店開了再回頭買。下午一路順向不回頭：花見小路、檀王、錦市場、D&amp;D、川床、河原町，全部往北往西串成一線。</p>
+
+  <div class="rail">
+    <div class="stop" data-k="move">
+      <div class="t">06:25<i>06:50</i></div><div class="dot"></div>
+      <h3>出發去清水寺（不吃早餐）</h3>
+      <p>早餐移到 8/31。計程車約 15 分鐘，這個時間路上很空。空腹會撐到中午，前一晚先在便利商店買個飯糰帶著</p>
+    </div>
+    <div class="stop" data-k="see">
+      <div class="t">06:50<i>08:10</i></div><div class="dot"></div>
+      <h3>清水寺</h3>
+      <p>6:00 就開門。八月日出約 5:20，這個時間光線好、人最少</p>
+    </div>
+    <div class="stop" data-k="shop">
+      <div class="t">08:10<i>08:55</i></div><div class="dot"></div>
+      <h3>三年坂 → 二年坂（拍照）</h3>
+      <p>店家十點才開，所以這一趟純粹是空景。沒有人的石板路是這條街一天中最好看的樣子，購物等等再回來</p>
+    </div>
+    <div class="stop" data-k="see">
+      <div class="t">09:00<i>10:00</i></div><div class="dot"></div>
+      <h3>高台寺（夏季特別公開）</h3>
+      <p>限定到 8/31，今天是最後機會。伏見城宴會廳修復後 237 年來首次公開，開山堂龍形天井畫同時開放。800 日圓含一般拜觀。9:00 開門</p>
+    </div>
+    <div class="stop" data-k="see">
+      <div class="t">10:05<i>10:20</i></div><div class="dot"></div>
+      <h3>八坂庚申堂</h3>
+      <p>免費，五顏六色的括猴很好拍。純粹是等商店十點開門的空檔，不想去就直接去日東堂門口等</p>
+    </div>
+    <div class="stop" data-k="shop">
+      <div class="t">10:20<i>11:20</i></div><div class="dot"></div>
+      <h3>八坂通、二年坂購物</h3>
+      <p>商店這時才開。Nittodo Kyoto Cafe（日東堂）10:00–18:00，二樓看得到八坂之塔，冷萃咖啡評價很高、瓶裝拿鐵很適合當伴手禮——</p>
+      <span class="key hot">週一、週四公休，8/30 週日有開。清水寺限定周邊、三年坂的おちゃのこさいさい（七味、香鬆，可試吃）也在這一段</span>
+    </div>
+    <div class="stop" data-k="see">
+      <div class="t">11:25<i>12:05</i></div><div class="dot"></div>
+      <h3>大雲院 祇園閣（夏季特別公開）</h3>
+      <p>內部平常不開放。伊藤忠太設計，敦煌壁畫複製、十二生肖銅像天井，三樓看京都全景。10:00 開門，800 日圓。三樓禁止拍照</p>
+    </div>
+    <div class="stop" data-k="see">
+      <div class="t">12:05<i>12:25</i></div><div class="dot"></div>
+      <h3>圓山公園 → 八坂神社 → 十二段家</h3>
+      <p>順路經過，八坂神社免費、隨時可進。走到祇園西花見小路約 10 分鐘</p>
+    </div>
+    <div class="stop" data-k="eat">
+      <div class="t">12:30<i>13:35</i></div><div class="dot"></div>
+      <h3>十二段家 本店</h3>
+      <p>已預約 12:30，商業午餐。炭火加熱的傳統壽喜燒。週三、四公休，8/30 週日有開</p>
+    </div>
+    <div class="stop" data-k="shop">
+      <div class="t">13:35<i>14:00</i></div><div class="dot"></div>
+      <h3>花見小路 → 白川 → 三条京阪</h3>
+      <p>不細逛，走過去就好。從十二段家出來往東就是花見小路，石板路兩側是茶屋建築，往北接新橋通、白川那段最有味道，邊走邊拍就夠了。</p>
+      <span class="key hot">花見小路有私有地段禁止拍照，地上有標示</span>
+    </div>
+    <div class="stop" data-k="see">
+      <div class="t">14:00<i>14:40</i></div><div class="dot"></div>
+      <h3>檀王法林寺（黑招財貓）</h3>
+      <p>16:00 關門所以排第一。拜觀 10:00–12:00／13:00–16:00，本堂 300 日圓。黑招財貓授與品在庫裏（寺務所）。</p>
+      <span class="key">有遊客回報 2026 年上半年黑招財貓曾長期缺貨，出發前可以先打電話問（075-771-0870）</span>
+    </div>
+    <div class="stop" data-k="shop">
+      <div class="t">14:50<i>15:40</i></div><div class="dot"></div>
+      <h3>錦市場</h3>
+      <p>50 分鐘，邊走邊吃剛好。從三条京阪往南走約 10 分鐘，從寺町進、高倉出（或反過來），出來離三条大橋只剩 8 分鐘。</p>
+      <span class="key">整條有頂棚，是下午唯一能遮陽的路段——太熱就在這裡多待一會，反正時間夠。多數店 17:00 前收攤</span>
+    </div>
+    <div class="stop" data-k="shop">
+      <div class="t">15:50<i>16:30</i></div><div class="dot"></div>
+      <h3>D&amp;DEPARTMENT KYOTO</h3>
+      <p>錦市場南端走過去約 8 分鐘。</p>
+      <span class="key hot">藏在本山佛光寺境內（下京區新開町 397），招牌不明顯——認明佛光寺山門走進去，境內有指標。11:00–18:00，週三公休。選品是日本各地的長銷生活道具和京都在地職人的器皿，室內有冷氣，剛好接在最熱的時段後面。旁邊的 d 食堂同一區，今天用不到</span>
+    </div>
+    <div class="stop" data-k="eat">
+      <div class="t">16:40<i>17:40</i></div><div class="dot"></div>
+      <h3>星巴克 京都三条大橋店 · 納涼床</h3>
+      <p>從 D&amp;D 走過來約 12 分鐘。6–8 月川床席 16:00 之後才開放。免席位費，一杯飲料就能上，限時 1 小時、一桌最多 4 人。禁用電腦、請勿撐陽傘。這是今天唯一坐得下來的一小時</p>
+    </div>
+    <div class="stop" data-k="shop">
+      <div class="t">17:40<i>20:00</i></div><div class="dot"></div>
+      <h3>河原町購物 · 藥妝</h3>
+      <p>Stüssy、atmos、京都BAL、KINDAL、KAPITAL，加上藥妝（面膜、防曬、開架彩妝——藥妝店開到很晚，放這裡買）。星巴克出來就是了。8/29 沒逛完的補在今天，兩小時十五分，先排優先順序</p>
+    </div>
+    <div class="stop" data-k="eat">
+      <div class="t">21:00<i>22:30</i></div><div class="dot"></div>
+      <h3>Rokkaku Ace</h3>
+      <p>已預約。下午記得墊個東西，不然撐不到。今晚回飯店大概 23:00，夜鳴 soba 剛好收攤，想吃只有 8/29 那晚</p>
+    </div>
+    <div class="stop" data-k="stay">
+      <div class="t">23:00</div><div class="dot"></div>
+      <h3>整理行李</h3>
+      <p>明天一早 06:30 就要退房寄放，今晚一定要打包完。走了十六小時之後做這件事很痛苦，但省下的是明天早上一整段</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ DAY 3 ══════════ -->
+<section class="day" id="d3">
+  <div class="band">
+  <svg viewBox="0 0 380 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="伏見稻荷千本鳥居">
+    <rect width="380" height="150" fill="#B8442E"/>
+    <rect width="380" height="150" fill="#1A2129" opacity=".1"/>
+    <g fill="#1A2129" opacity=".16">
+      <rect x="0" y="0" width="380" height="150"/>
+    </g>
+    <rect width="380" height="150" fill="#B8442E"/>
+    <!-- receding torii tunnel -->
+    <g fill="#8E3021">
+      <rect x="6" y="18" width="15" height="132"/><rect x="359" y="18" width="15" height="132"/>
+      <rect x="0" y="14" width="380" height="9"/><rect x="0" y="32" width="380" height="7"/>
+    </g>
+    <g fill="#A03826">
+      <rect x="40" y="30" width="12" height="120"/><rect x="328" y="30" width="12" height="120"/>
+      <rect x="30" y="26" width="320" height="8"/><rect x="34" y="42" width="312" height="6"/>
+    </g>
+    <g fill="#B34430">
+      <rect x="70" y="42" width="10" height="108"/><rect x="300" y="42" width="10" height="108"/>
+      <rect x="62" y="38" width="256" height="7"/><rect x="66" y="52" width="248" height="5"/>
+    </g>
+    <g fill="#C25139">
+      <rect x="98" y="54" width="8" height="96"/><rect x="274" y="54" width="8" height="96"/>
+      <rect x="92" y="50" width="196" height="6"/><rect x="95" y="62" width="190" height="4"/>
+    </g>
+    <g fill="#CE5C42">
+      <rect x="124" y="66" width="6" height="84"/><rect x="250" y="66" width="6" height="84"/>
+      <rect x="119" y="62" width="142" height="5"/><rect x="122" y="72" width="136" height="3.5"/>
+    </g>
+    <g fill="#D9694C">
+      <rect x="146" y="78" width="5" height="72"/><rect x="229" y="78" width="5" height="72"/>
+      <rect x="142" y="75" width="96" height="4"/>
+    </g>
+    <!-- light at the end -->
+    <ellipse cx="190" cy="122" rx="34" ry="30" fill="#EDEBE4" opacity=".5"/>
+    <ellipse cx="190" cy="128" rx="20" ry="20" fill="#EDEBE4" opacity=".55"/>
+    <!-- fox silhouette -->
+    <g transform="translate(190 118)" fill="#1A2129" opacity=".42">
+      <path d="M-7 12 L-7 0 Q-7 -6 -2 -8 L-5 -16 L0 -10 L4 -10 L9 -16 L6 -8 Q11 -6 11 0 L11 12Z"/>
+      <path d="M11 8 Q19 6 20 -2 Q21 6 13 12Z"/>
+    </g>
+  </svg>
+    <div class="cap">
+      <div class="n">DAY THREE</div>
+      <h2>伏見稻荷 · 涉成園 · 任天堂</h2>
+      <div class="d">8 月 31 日（一）</div>
+    </div>
+  </div>
+
+  <p class="note">先吃早餐再退房，稻荷、涉成園、博物館一路往南。晚上 carta. 接 FUREK，會是最晚的一夜。</p>
+
+  <div class="rail">
+    <div class="stop" data-k="eat">
+      <div class="t">06:30<i>07:05</i></div><div class="dot"></div>
+      <h3>飯店早餐</h3>
+      <p>供應 6:30–9:30。招牌是京都老舖湯葉做的湯葉海鮮丼，鮭魚卵和生魚片可以自己盛——這是這家在 Dormy Inn 系列裡評價最高的東西，從 8/30 換過來的</p>
+    </div>
+    <div class="stop" data-k="stay">
+      <div class="t">07:10<i>07:30</i></div><div class="dot"></div>
+      <h3>退房 · 行李寄放櫃台</h3>
+      <p>櫃台 24 小時有人。行李留這裡，晚上回程順路取</p>
+    </div>
+    <div class="stop" data-k="move">
+      <div class="t">07:35<i>07:50</i></div><div class="dot"></div>
+      <h3>JR 京都 → 稻荷</h3>
+      <p>兩站五分鐘。走到京都站約 12 分鐘</p>
+    </div>
+    <div class="stop" data-k="see">
+      <div class="t">07:50<i>09:20</i></div><div class="dot"></div>
+      <h3>伏見稻荷大社</h3>
+      <p>沒有開門時間，24 小時可進，早到就是純賺。有兩小時，可以往上走到三之辻的展望點再折返；走到山頂還是要兩小時以上，不建議</p>
+    </div>
+    <div class="stop" data-k="move">
+      <div class="t">09:20<i>09:45</i></div><div class="dot"></div>
+      <h3>稻荷 → 京都站</h3>
+      <p>走去涉成園約 10 分鐘，10:00 開門剛好</p>
+    </div>
+    <div class="stop" data-k="see">
+      <div class="t">10:00<i>11:35</i></div><div class="dot"></div>
+      <h3>涉成園 閬風亭（夏季特別公開）</h3>
+      <p>週一有開，已確認。京都站走過去約 10 分鐘。井上雄彥畫親鸞生平的六曲一雙大屏風——這幅平常不公開，過去只在秋天開放三天，今年 8/5–9/30 這種近兩個月的檔期非常罕見。園林堂裡還有棟方志功 1958 年的四十四面襖繪，特別公開期間通常一起開放。10:00–16:30，閬風亭 500 日圓＋庭園維持費 700 日圓</p>
+    </div>
+    <div class="stop" data-k="move">
+      <div class="t">11:35<i>11:45</i></div><div class="dot"></div>
+      <h3>走回京都站</h3>
+      <p>約 10 分鐘</p>
+    </div>
+    <div class="stop" data-k="eat">
+      <div class="t">11:45<i>12:40</i></div><div class="dot"></div>
+      <h3>京都站午餐</h3>
+      <p>涉成園走回京都站約 10 分鐘。伊勢丹的餐廳樓層或站內的拉麵小路都可以，吃完就近搭近鐵</p>
+    </div>
+    <div class="stop" data-k="move">
+      <div class="t">12:40<i>13:00</i></div><div class="dot"></div>
+      <h3>走到近鐵剪票口</h3>
+      <p>京都站很大，近鐵在八条口方向，走過去要 10 分鐘以上，別小看</p>
+    </div>
+    <div class="stop" data-k="move">
+      <div class="t">13:00<i>13:25</i></div><div class="dot"></div>
+      <h3>京都站 → 近鐵小倉站</h3>
+      <p>近鐵京都線約 20 分鐘</p>
+    </div>
+    <div class="stop" data-k="move">
+      <div class="t">13:30<i>14:20</i></div><div class="dot"></div>
+      <h3>近鐵小倉站 → Nintendo Museum</h3>
+      <p>走路約 5 分鐘。提早到門口等，寧可早不要晚</p>
+    </div>
+    <div class="stop" data-k="see">
+      <div class="t">14:30<i>17:30</i></div><div class="dot"></div>
+      <h3>Nintendo Museum</h3>
+      <p>已購票，指定入場 14:30–15:00</p>
+    </div>
+    <div class="stop" data-k="move">
+      <div class="t">17:30<i>18:15</i></div><div class="dot"></div>
+      <h3>近鐵小倉站 → 京都站</h3>
+      <p>近鐵原路回</p>
+    </div>
+    <div class="stop" data-k="stay">
+      <div class="t">18:15<i>18:35</i></div><div class="dot"></div>
+      <h3>御宿野乃 取行李</h3>
+      <p>京都站走過去約 7 分鐘，幾乎不繞路</p>
+    </div>
+    <div class="stop" data-k="stay">
+      <div class="t">18:45</div><div class="dot"></div>
+      <h3>丸福樓 Check-in</h3>
+      <p>從御宿野乃搭計程車 10 分鐘。後兩晚。晚上不排行程，飯店本身就是重點</p>
+    </div>
+    <div class="stop" data-k="eat">
+      <div class="t">19:30<i>21:30</i></div><div class="dot"></div>
+      <h3>carta. 晚餐（丸福樓內）</h3>
+      <p>已改期完成。料理家細川亞衣監修，連空間設計都是她做的，新式洋食套餐可加紅酒 pairing</p>
+    </div>
+    <div class="stop" data-k="eat">
+      <div class="t">21:45<i>23:15</i></div><div class="dot"></div>
+      <h3>Cocktail Stand FUREK</h3>
+      <span class="key hot">週二公休，所以只能排今天（週一 18:00–24:00）。東山區鐘鑄町 352，從丸福樓走過去十幾分鐘，過個橋就到。130 年町家改建的站立式立飲調酒吧，自家井水加 150 種以上香氣蒸餾液，連 tonic 都自製，Google 4.9 分、人均 4,000–5,000 日圓。出發前看 Instagram 確認有沒有臨時休</span>
+    </div>
+    <div class="stop" data-k="stay">
+      <div class="t">23:30</div><div class="dot"></div>
+      <h3>走回丸福樓</h3>
+      <span class="key">明天 07:00 就要出發去嵐山。說好喝一杯就走，別戀棧——明天下午的休息只剩 75 分鐘</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ DAY 4 ══════════ -->
+<section class="day" id="d4">
+  <div class="band">
+  <svg viewBox="0 0 380 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="嵐山竹林與金閣寺">
+    <rect width="380" height="150" fill="#3E5744"/>
+    <!-- bamboo -->
+    <g stroke="#6E8A6F" stroke-width="9" opacity=".65" stroke-linecap="round">
+      <line x1="18" y1="-10" x2="24" y2="150"/><line x1="52" y1="-10" x2="46" y2="150"/>
+      <line x1="84" y1="-10" x2="90" y2="150"/><line x1="290" y1="-10" x2="284" y2="150"/>
+      <line x1="322" y1="-10" x2="328" y2="150"/><line x1="356" y1="-10" x2="350" y2="150"/>
+    </g>
+    <g stroke="#8CA88C" stroke-width="5" opacity=".55" stroke-linecap="round">
+      <line x1="36" y1="-10" x2="38" y2="150"/><line x1="70" y1="-10" x2="66" y2="150"/>
+      <line x1="108" y1="-10" x2="112" y2="150"/><line x1="268" y1="-10" x2="264" y2="150"/>
+      <line x1="306" y1="-10" x2="310" y2="150"/><line x1="340" y1="-10" x2="336" y2="150"/>
+    </g>
+    <g stroke="#2E4033" stroke-width="1.2" opacity=".5">
+      <line x1="14" y1="44" x2="30" y2="44"/><line x1="16" y1="96" x2="32" y2="96"/>
+      <line x1="42" y1="62" x2="58" y2="62"/><line x1="80" y1="34" x2="96" y2="34"/>
+      <line x1="284" y1="70" x2="300" y2="70"/><line x1="322" y1="50" x2="338" y2="50"/>
+    </g>
+    <!-- golden pavilion -->
+    <g transform="translate(190 46)">
+      <ellipse cx="0" cy="86" rx="72" ry="14" fill="#1A2129" opacity=".3"/>
+      <g stroke="#A8813C" stroke-width="1.6" fill="#A8813C" fill-opacity=".9">
+        <path d="M-30 -8 Q0 -20 30 -8 Z"/>
+        <rect x="-21" y="-8" width="42" height="15" fill-opacity=".55"/>
+        <path d="M-38 10 Q0 -3 38 10 Z"/>
+        <rect x="-27" y="10" width="54" height="17" fill-opacity=".45"/>
+        <path d="M-46 30 Q0 16 46 30 Z"/>
+        <rect x="-34" y="30" width="68" height="19" fill-opacity=".35"/>
+      </g>
+      <g fill="#A8813C" opacity=".28">
+        <path d="M-46 56 Q0 68 46 56 L38 62 Q0 74 -38 62Z"/>
+        <path d="M-38 66 Q0 78 38 66 L30 72 Q0 82 -30 72Z"/>
+      </g>
+      <circle cx="0" cy="-24" r="3" fill="#A8813C"/>
+    </g>
+  </svg>
+    <div class="cap">
+      <div class="n">DAY FOUR</div>
+      <h2>竹林 · 小火車 · 金閣寺 · 二条城 · 平等寺</h2>
+      <div class="d">9 月 1 日（二）</div>
+    </div>
+  </div>
+
+  <p class="note">不排仁和寺——四個點塞不下。由西往北再往東南，不回頭。二条城只看二之丸御殿，順路收平等寺，回飯店補眠兩小時，晚上祇園鰻魚。</p>
+
+  <div class="rail">
+    <div class="stop" data-k="move">
+      <div class="t">07:00<i>07:45</i></div><div class="dot"></div>
+      <h3>丸福樓 → 嵐山</h3>
+      <p>搭電車，避開巴士</p>
+    </div>
+    <div class="stop" data-k="see">
+      <div class="t">07:45<i>08:35</i></div><div class="dot"></div>
+      <h3>竹林小徑 → 野宮神社</h3>
+      <p>竹林免費、沒有開放時間，一早去是唯一正確答案，十點後人潮完全不同。天龍寺跳過（8:30 才開），渡月橋也略過——保津川的景等一下在小火車上看更好</p>
+    </div>
+    <div class="stop" data-k="move">
+      <div class="t">08:40<i>08:55</i></div><div class="dot"></div>
+      <h3>走到小火車嵯峨站</h3>
+      <p>トロッコ嵯峨駅是獨立站體、有自己面向街道的出入口，從竹林走過去直接進去就好，不用碰 JR 的閘門（早上 07:45 下車時就已經刷 Suica 出站了）。小火車票只在小火車的閘門用，跟 JR 是兩套系統。記得先把電子車票截圖存相簿</p>
+    </div>
+    <div class="stop" data-k="see">
+      <div class="t">09:02<i>09:25</i></div><div class="dot"></div>
+      <h3>嵯峨野小火車 1 號（嵯峨 → 龜岡）</h3>
+      <p>已訂，訂單 ARS_SAGANO_KANKO-20260820-JDCU，成人 ×2、1,760 日圓。座位 1 號車 10 排 A、D——偶數側看得到保津川，A、D 是外側窗邊，有屋頂不曬。下行時 D 面向前進方向、A 背向。全程 7.3 公里、穿八個隧道、23 分鐘。</p>
+      <span class="key">這批車輛年底退役，2027 春天換新車</span>
+    </div>
+    <div class="stop" data-k="move">
+      <div class="t">09:35<i>09:55</i></div><div class="dot"></div>
+      <h3>走到 JR 馬堀站 → 嵯峨嵐山</h3>
+      <p>從小火車龜岡站走約 10 分鐘，平路、指標清楚。沒買回程小火車票就是為了不用趕那 5 分鐘轉車。JR 直接刷 Suica</p>
+    </div>
+    <div class="stop" data-k="move">
+      <div class="t">10:00<i>10:35</i></div><div class="dot"></div>
+      <h3>嵯峨嵐山 → 金閣寺</h3>
+      <p>計程車約 25 分、3,000 日圓出頭最省事</p>
+    </div>
+    <div class="stop" data-k="see">
+      <div class="t">10:40<i>11:40</i></div><div class="dot"></div>
+      <h3>金閣寺</h3>
+      <p>9:00–17:00，500 日圓，只收現金。繞一圈 40 分鐘就夠，單向動線、沿路沒有座位</p>
+    </div>
+    <div class="stop" data-k="move">
+      <div class="t">11:50<i>12:20</i></div><div class="dot"></div>
+      <h3>金閣寺 → 蕎麥麵店</h3>
+      <p>計程車約 20 分鐘，或市巴士 12 號</p>
+    </div>
+    <div class="stop" data-k="eat">
+      <div class="t">12:30<i>13:30</i></div><div class="dot"></div>
+      <h3>蕎麦 たつ市（Soba Tatsuichi）</h3>
+      <p>已訂 12:30。中京區二条油小路町 276，離二条城走路 7 分鐘。11:30–22:00 無休，Google 4.3、1,400 多則評論。招牌是鴨肉蕎麥和季節限定的六種冷蕎麥拼盤，份量偏大，別點太多。</p>
+      <span class="key">就算訂了位，門口還是要在紙上寫名字排隊，約等 10 分鐘。飯後有蕎麥冰淇淋</span>
+    </div>
+    <div class="stop" data-k="see">
+      <div class="t">13:40<i>14:30</i></div><div class="dot"></div>
+      <h3>二条城 · 只看二之丸御殿</h3>
+      <p>從蕎麥麵店走過來 7 分鐘。世界遺產、大政奉還的現場。33 個房間是一條單向走廊走完，40–50 分鐘就夠。唐門在入口動線上、二之丸庭園緊接在出口，最精華的都會經過；天守閣跡和清流園跳過，八月底在太陽下繞圈不划算。入城＋御殿 1,300 日圓。</p>
+      <span class="key hot">夏季特別事業的大廣間三之間特別入室（7/22–8/24）和障壁畫原畫公開（–8/11）到 9/1 都已結束，看的是常態展示。 · 本丸御殿要另外預約、來回多一個半小時，這次不排。 · 大休憩所內賣店有夏限定「入城記念符」：以二之丸御殿障壁畫的鷹與虎為主題、金箔燙印，700 日圓、限量 5,000 張，8/1 開賣賣完為止，而且會印上當天日期。大休憩所就在參觀動線旁，順手買。怕賣完可先電話問 075-841-0096。 · 御殿內脫鞋、要穿襪子、全面禁止攝影。 · 二之丸御殿只有 1、7、8、12 月的週二休館，9/1 不受影響</span>
+    </div>
+    <div class="stop" data-k="see">
+      <div class="t">14:55<i>15:35</i></div><div class="dot"></div>
+      <h3>因幡堂 平等寺（毛孩御守）</h3>
+      <p>二条城回丸福樓本來就會經過烏丸，順路不繞。地鐵四条站 5 號出口走 4 分鐘。寵物守、招財貓籤、小鳥御守（虎皮鸚鵡、玄鳳都有）。御守授與 16:30 截止，現在有快一小時緩衝</p>
+    </div>
+    <div class="stop" data-k="stay">
+      <div class="t">16:00<i>18:00</i></div><div class="dot"></div>
+      <h3>回丸福樓休息</h3>
+      <p>昨晚在 FUREK 待到晚，這兩小時一定要躺平。二条城只看二之丸御殿換回來的</p>
+    </div>
+    <div class="stop" data-k="move">
+      <div class="t">18:05<i>18:25</i></div><div class="dot"></div>
+      <h3>丸福樓 → 祇園</h3>
+      <p>京阪七条 → 祇園四条兩站，出站走 4 分鐘</p>
+    </div>
+    <div class="stop" data-k="eat">
+      <div class="t">18:30<i>19:45</i></div><div class="dot"></div>
+      <h3>祇をん う桶や う</h3>
+      <p>已預約 18:30。晚餐只到 20:00，別遲到。祇園西花見小路，百年町家，二樓榻榻米座敷。招牌「名代う桶」是江戶燒鰻魚排成筏狀盛在杉木桶裡，小份（三人份）11,700 日圓，兩人吃得完</p>
+    </div>
+    <div class="stop" data-k="move">
+      <div class="t">19:50<i>20:15</i></div><div class="dot"></div>
+      <h3>走回丸福樓</h3>
+      <p>祇園走回去約 20 分鐘，沿鴨川散步很舒服；不想走就京阪祇園四条 → 七条兩站</p>
+    </div>
+    <div class="stop" data-k="stay">
+      <div class="t">20:20<i>22:30</i></div><div class="dot"></div>
+      <h3>圖書室、自助酒吧</h3>
+      <p>開到 23:00。山內家詮釋任天堂歷史的圖書室，加上自助式吧台，威士忌、琴酒自己調，全部included。最後一晚不用再出門，這裡收尾剛好</p>
+    </div>
+    <div class="stop" data-k="stay">
+      <div class="t">22:30</div><div class="dot"></div>
+      <h3>整理行李</h3>
+      <p>明天 08:00 carta. 早餐、10:30 就要出發，今晚一定要收完</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ DAY 5 ══════════ -->
+<section class="day" id="d5">
+  <div class="band">
+  <svg viewBox="0 0 380 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="離開京都的清晨">
+    <rect width="380" height="150" fill="#CFD8D6"/>
+    <path d="M0 0 L380 0 L380 66 Q290 44 190 66 Q90 88 0 62Z" fill="#EDEBE4" opacity=".55"/>
+    <circle cx="82" cy="42" r="18" fill="#B8442E" opacity=".2"/>
+    <path d="M0 92 L58 66 L110 92 L164 62 L218 94 L272 70 L326 96 L380 74 L380 150 L0 150Z" fill="#2C4560" opacity=".18"/>
+    <path d="M0 108 L52 88 L104 110 L158 86 L212 112 L268 92 L322 114 L380 96 L380 150 L0 150Z" fill="#4B6650" opacity=".22"/>
+    <!-- plane trail -->
+    <g opacity=".5">
+      <path d="M40 34 Q140 20 250 30" stroke="#2C4560" stroke-width="1.2" fill="none" stroke-dasharray="4 5"/>
+      <g transform="translate(262 30) rotate(12)" fill="#2C4560">
+        <path d="M0 0 L-18 5 L-13 0 L-18 -5Z"/>
+        <path d="M-9 0 L-15 -9 L-11 -9 L-5 -1Z"/><path d="M-9 0 L-15 9 L-11 9 L-5 1Z"/>
+      </g>
+    </g>
+    <!-- rails -->
+    <g stroke="#1A2129" opacity=".18" fill="none">
+      <path d="M0 140 L380 128" stroke-width="1.4"/><path d="M0 148 L380 136" stroke-width="1.4"/>
+    </g>
+  </svg>
+    <div class="cap">
+      <div class="n">DAY FIVE</div>
+      <h2>回程</h2>
+      <div class="d">9 月 2 日（三）</div>
+    </div>
+  </div>
+
+  <p class="note">比原本提前 30 分鐘出發。樂桃在第 2 航廈，HARUKA 到的是第 1 航廈，中間要再轉一次接駁車。</p>
+
+  <div class="rail">
+    <div class="stop" data-k="eat">
+      <div class="t">08:00<i>09:30</i></div><div class="dot"></div>
+      <h3>carta. 早餐（丸福樓內）</h3>
+      <p>已預約。和食早餐，窗邊採光很好。吃完再回房收尾，行李前一晚就要整理好</p>
+    </div>
+    <div class="stop" data-k="stay">
+      <div class="t">09:30<i>10:30</i></div><div class="dot"></div>
+      <h3>收行李、退房</h3>
+    </div>
+    <div class="stop" data-k="move">
+      <div class="t">10:30<i>10:50</i></div><div class="dot"></div>
+      <h3>丸福樓 → 京都站</h3>
+      <p>計程車</p>
+    </div>
+    <div class="stop" data-k="shop">
+      <div class="t">10:50<i>11:15</i></div><div class="dot"></div>
+      <h3>京都站買伴手禮 · ちいかわベーカリー</h3>
+      <span class="key">ちいかわ麵包店期間限定 pop up 就在 JR 京都站西口改札前的特設會場，10:00–21:00，開到 9/9。吐司各 950 日圓，還有盒裝的ふわふわおたべ，買滿 2,200 日圓有限定特典。位置在你們進站的路上，順手就到。伴手禮如果還想買別的，伊勢丹和八条口一帶也都有</span>
+    </div>
+    <div class="stop" data-k="move">
+      <div class="t">11:20<i>12:40</i></div><div class="dot"></div>
+      <h3>HARUKA → 關西機場 T1</h3>
+      <p>指定席已訂。約 80 分鐘。</p>
+      <span class="key">出發前把訂位紀錄截圖存相簿</span>
+    </div>
+    <div class="stop" data-k="move">
+      <div class="t">12:40<i>13:00</i></div><div class="dot"></div>
+      <h3>免費接駁車 T1 → T2</h3>
+      <p>樂桃在第 2 航廈。這段最容易被忘記</p>
+    </div>
+    <div class="stop" data-k="move">
+      <div class="t">13:00<i>14:25</i></div><div class="dot"></div>
+      <h3>報到、托運、安檢</h3>
+      <p>樂桃托運截止通常在起飛前 50 分鐘，也就是 14:25</p>
+    </div>
+    <div class="stop" data-k="move">
+      <div class="t">15:15<i>17:30</i></div><div class="dot"></div>
+      <h3>KIX → 桃園 MM027</h3>
+      <p>17:30 抵達桃園</p>
+    </div>
+  </div>
+</section>
+
+<div class="legend">
+  <h4>圖 例</h4>
+  <ul>
+    <li><i style="background:var(--ai)"></i>景點</li>
+    <li><i style="background:var(--shu)"></i>吃喝</li>
+    <li><i style="background:var(--matsu)"></i>購物</li>
+    <li><i style="background:var(--kin)"></i>住宿</li>
+    <li><i style="background:var(--paper);border:1.5px solid var(--rule)"></i>移動</li>
+  </ul>
+</div>
+
+<!-- ══════════ INFO ══════════ -->
+<section class="tail" id="info">
+  <h4>隨 身 須 知</h4>
+  <dl>
+    <dt>八月底的京都，35 度起跳</dt>
+    <dd>清水寺、伏見稻荷都是連續爬坡和曝曬。水、帽子、涼感巾要帶，行程裡每個「走路 15 分鐘」實際會變成 25 分鐘。</dd>
+
+    <dt>一張 ICOCA 打天下</dt>
+    <dd>關西機場買得到，JR、地鐵、京阪、近鐵、市巴士全通用。不用買任何周遊券，你們的移動範圍達不到門檻。</dd>
+
+    <dt>兩個人就叫計程車</dt>
+    <dd>起跳約 500 日圓。凡是市巴士要坐超過 20 分鐘或要轉車的路段，直接叫車比較划算。後車門是自動的，不要伸手拉。</dd>
+
+    <dt>樂桃在第 2 航廈</dt>
+    <dd>去回都要多搭一次免費接駁車。回程忘記這件事就是趕不上飛機。</dd>
+
+    <dt>免稅還是舊制</dt>
+    <dd>新的退稅方式 11 月才上路，你們仍是結帳當下直接扣掉 10%。帶護照。ヨドバシ 結帳時選免稅，不要選積分——點數帶不回台灣。</dd>
+
+    <dt>電壓</dt>
+    <dd>日本 100V、台灣 110V，插頭形狀一樣所以插得進去。充電器上找「100-240V」，只印 100V 就要準備降壓器。</dd>
+  </dl>
+</section>
+
+<footer>
+  <div class="rule"></div>
+  營業時間與票價可能變動，出發前用 Google Maps 再確認一次。<br>
+  祝旅途愉快。
+</footer>
+
+</div>
+
+<script>
+(function(){
+  var links=[].slice.call(document.querySelectorAll('nav a'));
+  var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'));});
+  function sync(){
+    var y=window.scrollY+90, k=0;
+    secs.forEach(function(s,i){ if(s&&s.offsetTop<=y) k=i; });
+    links.forEach(function(a,i){ a.classList.toggle('on', i===k); });
+  }
+  window.addEventListener('scroll',sync,{passive:true});
+  sync();
+})();
+</script>
+</body>
+</html>
