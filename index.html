@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>京都五天四夜 · 行程核對表</title>
+<style>
+:root{
+  --wall:#E4E7E3;
+  --card:#FCFCFB;
+  --ink:#16202A;
+  --ink-2:#55636F;
+  --ink-3:#8A959E;
+  --rule:#D2D7D2;
+  --shu:#C0392B;
+  --matsu:#4F6B57;
+  --ai:#2E4A62;
+  --amber:#B4741A;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{
+  min-height:100dvh;
+  background:var(--wall);
+  color:var(--ink);
+  font-family:"Hiragino Sans","PingFang TC","Noto Sans TC","Helvetica Neue",system-ui,sans-serif;
+  font-size:15px;line-height:1.65;
+  padding:0 0 88px;
+}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,"Roboto Mono",monospace;font-variant-numeric:tabular-nums}
+
+/* ── header ── */
+header{
+  padding:26px 18px 18px;
+  border-bottom:1px solid var(--rule);
+  background:linear-gradient(180deg,#EDEFEB 0%,var(--wall) 100%);
+}
+.eyebrow{
+  font-size:10.5px;letter-spacing:.34em;text-transform:uppercase;
+  color:var(--ink-3);margin-bottom:9px;
+}
+h1{
+  margin:0;font-size:27px;line-height:1.15;font-weight:800;letter-spacing:-.02em;
+}
+h1 small{display:block;font-size:13px;font-weight:500;color:var(--ink-2);letter-spacing:.02em;margin-top:7px}
+.tally{display:flex;gap:7px;margin-top:16px;flex-wrap:wrap}
+.tally b{
+  font:600 11px/1 inherit;padding:6px 9px;border-radius:2px;
+  background:#fff;border:1px solid var(--rule);color:var(--ink-2);
+  display:inline-flex;gap:6px;align-items:center;
+}
+.tally b i{font-style:normal;font-weight:800;color:var(--ink)}
+.sync{font-size:10.5px;color:var(--ink-3);margin-top:11px;letter-spacing:.04em;min-height:14px}
+
+/* ── day nav ── */
+nav{
+  position:sticky;top:0;z-index:20;display:flex;overflow-x:auto;
+  background:rgba(228,231,227,.94);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--rule);scrollbar-width:none;
+}
+nav::-webkit-scrollbar{display:none}
+nav button{
+  flex:0 0 auto;background:none;border:0;padding:13px 15px 11px;
+  font:600 13px/1.3 inherit;color:var(--ink-3);cursor:pointer;
+  border-bottom:2px solid transparent;white-space:nowrap;
+}
+nav button .d{display:block;font-size:10px;letter-spacing:.1em;font-weight:600;margin-top:3px}
+nav button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--shu)}
+
+/* ── day ── */
+.day{padding:22px 16px 8px}
+.day-head{margin-bottom:20px}
+.day-no{
+  font:800 10.5px/1 inherit;letter-spacing:.3em;color:var(--shu);
+}
+.day-title{font-size:20px;font-weight:800;margin:9px 0 5px;letter-spacing:-.01em}
+.day-sub{font-size:12.5px;color:var(--ink-2);line-height:1.6}
+[contenteditable]{outline:0;border-radius:2px;padding:2px 4px;margin:-2px -4px;
+  transition:background .12s,box-shadow .12s;-webkit-user-modify:read-write-plaintext-only}
+[contenteditable]:hover{background:rgba(22,32,42,.045)}
+[contenteditable]:focus{background:#fff;box-shadow:0 0 0 2px var(--ai)}
+[contenteditable]:empty:before{content:attr(data-ph);color:var(--ink-3)}
+.day-no [contenteditable]{display:inline-block;min-width:1.5em}
+.hint{font-size:10.5px;color:var(--ink-3);letter-spacing:.06em;margin:2px 0 18px}
+.daybar{display:flex;gap:8px;margin:6px 0 22px;flex-wrap:wrap}
+.daybar button{
+  background:none;border:1px solid var(--rule);border-radius:2px;cursor:pointer;
+  padding:7px 10px;font:600 11px/1 inherit;color:var(--ink-2);letter-spacing:.05em;
+}
+.daybar button:hover{border-color:var(--ink-3);color:var(--ink)}
+.daybar button.danger{color:var(--shu)}
+
+/* ── the rail (signature) ── */
+.rail{position:relative;padding-left:66px}
+.rail:before{
+  content:"";position:absolute;left:57px;top:8px;bottom:26px;
+  width:1px;background:var(--rule);
+}
+.item{position:relative;margin-bottom:11px;cursor:pointer}
+.time{
+  position:absolute;left:-66px;top:11px;width:47px;text-align:right;cursor:pointer;
+  font-size:11.5px;line-height:1.35;color:var(--ink-2);font-weight:600;
+}
+.time span{display:block;color:var(--ink-3);font-weight:400}
+.pin{
+  position:absolute;left:-13px;top:15px;width:9px;height:9px;
+  border:1.5px solid var(--ink-3);background:var(--wall);border-radius:1px;
+}
+.item[data-s="鎖定"] .pin{background:var(--shu);border-color:var(--shu)}
+.item[data-s="待辦"] .pin{background:var(--amber);border-color:var(--amber)}
+.item[data-s="必去"] .pin{background:var(--ai);border-color:var(--ai)}
+.item[data-s="彈性"] .pin{background:var(--wall);border-color:var(--matsu)}
+
+.card{
+  background:var(--card);border:1px solid var(--rule);border-radius:3px;
+  padding:11px 13px;cursor:pointer;transition:border-color .15s;
+}
+.card:hover{border-color:var(--ink-3)}
+.item.done .card{opacity:.44}
+.item.done .name{text-decoration:line-through}
+.top{display:flex;align-items:flex-start;gap:9px}
+.name{flex:1;font-size:14.5px;font-weight:600;line-height:1.45;letter-spacing:-.005em}
+.chk{
+  flex:0 0 auto;width:19px;height:19px;margin-top:2px;border:1.5px solid var(--rule);
+  border-radius:2px;background:#fff;cursor:pointer;position:relative;
+}
+.chk:after{
+  content:"";position:absolute;left:5.5px;top:1.5px;width:5px;height:10px;
+  border:solid var(--matsu);border-width:0 2px 2px 0;transform:rotate(42deg) scale(0);
+  transition:transform .12s;
+}
+.item.done .chk{border-color:var(--matsu)}
+.item.done .chk:after{transform:rotate(42deg) scale(1)}
+.note{font-size:12.5px;color:var(--ink-2);margin-top:6px;line-height:1.6}
+.tags{display:flex;gap:6px;margin-top:9px;flex-wrap:wrap;align-items:center}
+.pen{
+  margin-left:auto;font:600 10.5px/1 inherit;color:var(--ink-3);letter-spacing:.08em;
+  display:inline-flex;align-items:center;gap:4px;
+}
+.pen:after{content:"▾";font-size:9px;transition:transform .15s}
+.item.open .pen{color:var(--ai)}
+.item.open .pen:after{transform:rotate(180deg)}
+.tag{
+  font:600 10.5px/1 inherit;padding:4px 7px;border-radius:2px;letter-spacing:.05em;
+  border:1px solid currentColor;
+}
+.tag.鎖定{color:var(--shu)} .tag.待辦{color:var(--amber)}
+.tag.必去{color:var(--ai)}  .tag.彈性{color:var(--matsu)}
+.cat{font:500 10.5px/1 inherit;color:var(--ink-3);letter-spacing:.06em}
+
+/* ── editor ── */
+.edit{display:none;margin-top:12px;padding-top:12px;border-top:1px dashed var(--rule)}
+.item.open .edit{display:block}
+.item.open .card{border-color:var(--ink)}
+label{display:block;font:600 10px/1 inherit;letter-spacing:.16em;color:var(--ink-3);margin:11px 0 5px}
+input[type=text],textarea{
+  width:100%;font:inherit;font-size:13.5px;color:var(--ink);
+  background:#fff;border:1px solid var(--rule);border-radius:2px;padding:8px 9px;
+}
+textarea{resize:vertical;min-height:56px;line-height:1.55}
+input:focus,textarea:focus{outline:2px solid var(--ai);outline-offset:-1px;border-color:transparent}
+.picker{display:flex;gap:6px;flex-wrap:wrap}
+.picker button{
+  font:600 11.5px/1 inherit;padding:8px 11px;border-radius:2px;cursor:pointer;
+  background:#fff;border:1px solid var(--rule);color:var(--ink-2);
+}
+.picker button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
+.row2{display:flex;gap:9px}.row2>div{flex:1}
+.del{
+  margin-top:14px;background:none;border:0;padding:6px 0;cursor:pointer;
+  font:600 11.5px/1 inherit;color:var(--shu);letter-spacing:.05em;
+}
+.add{
+  width:100%;margin:4px 0 26px;padding:12px;cursor:pointer;
+  background:none;border:1px dashed var(--rule);border-radius:3px;
+  font:600 12.5px/1 inherit;color:var(--ink-3);letter-spacing:.08em;
+}
+.add:hover{border-color:var(--ink-3);color:var(--ink-2)}
+
+/* ── footer bar ── */
+.bar{
+  position:sticky;bottom:0;left:0;right:0;z-index:30;display:flex;gap:8px;
+  padding:11px 14px calc(11px + env(safe-area-inset-bottom));
+  background:rgba(252,252,251,.96);backdrop-filter:blur(10px);
+  border-top:1px solid var(--rule);
+}
+.bar button{
+  flex:1;padding:11px 8px;border-radius:2px;cursor:pointer;
+  font:600 12.5px/1 inherit;letter-spacing:.05em;
+  background:#fff;border:1px solid var(--rule);color:var(--ink);
+}
+.bar button.primary{background:var(--ink);border-color:var(--ink);color:#fff}
+.bar button:active{transform:translateY(1px)}
+.bar button.ok{background:var(--matsu);border-color:var(--matsu);color:#fff}
+
+#toast{
+  position:fixed;left:50%;transform:translateX(-50%) translateY(10px);
+  bottom:calc(74px + env(safe-area-inset-bottom));z-index:40;
+  padding:10px 16px;border-radius:999px;pointer-events:none;
+  background:var(--ink);color:#fff;font:600 12.5px/1 inherit;letter-spacing:.04em;
+  opacity:0;transition:opacity .18s,transform .18s;max-width:90vw;text-align:center;
+}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+#toast.bad{background:var(--shu)}
+
+dialog{
+  border:0;border-radius:4px;padding:0;max-width:min(520px,92vw);width:100%;
+  background:var(--card);color:var(--ink);
+}
+dialog::backdrop{background:rgba(22,32,42,.45)}
+.dlg{padding:20px}
+.dlg h2{margin:0 0 10px;font-size:16px;font-weight:800}
+.dlg p{margin:0 0 14px;font-size:13px;color:var(--ink-2);line-height:1.65}
+.dlg textarea{min-height:230px;font-size:12px;font-family:ui-monospace,Menlo,monospace}
+.dlg .picker{margin-top:14px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">Kyoto · 5 Days 4 Nights</div>
+  <h1>京都行程核對表<small>2026 / 8 / 29 — 9 / 2 · v53 · 點任一列可直接編輯，兩個人看到的是同一份</small></h1>
+  <div class="tally" id="tally"></div>
+  <div class="sync" id="sync"></div>
+</header>
+
+<nav id="nav" role="tablist"></nav>
+<main id="main"></main>
+
+<div id="toast" role="status" aria-live="polite"></div>
+
+<div class="bar">
+  <button id="btnCopy">複製成文字</button>
+  <button id="btnReset">還原建議版</button>
+  <button class="primary" id="btnSave">立即儲存</button>
+</div>
+
+<dialog id="dlgCopy"><div class="dlg">
+  <h2>複製給男友</h2>
+  <p>全選底下的文字複製，貼到 LINE 或備忘錄都可以。</p>
+  <textarea id="copyText" readonly></textarea>
+  <div class="picker"><button id="dlgCopyBtn">複製全部</button><button id="dlgClose">關閉</button></div>
+  <p class="small" style="font-size:11.5px;color:var(--ink-3);margin:12px 0 0">
+    存不進去的時候，複製這段文字留著就不會丟。</p>
+</div></dialog>
+
+<dialog id="dlgReset"><div class="dlg">
+  <h2>還原成建議版本？</h2>
+  <p>你們兩個人做過的所有修改都會消失，換回原本這份建議行程。這個動作沒辦法復原。</p>
+  <div class="picker">
+    <button id="resetNo">取消</button>
+    <button id="resetYes" style="background:var(--shu);border-color:var(--shu);color:#fff">確定還原</button>
+  </div>
+</div></dialog>
+
+<script>
+const KEY='kyoto-2026-itinerary-v53', SHARED=true;
+const STATUSES=['鎖定','待辦','必去','彈性'];
+
+const SEED=[
+ {d:'8/29',w:'六',t:'抵達 · 四条河原町 · 京都站',s:'逛街優先。放好行李空手出門，一路逛到店家打烊，晚餐邊走邊吃，最後往南到京都站掃電器行，搭兩站回來泡澡。',items:[
+  {t:'行前',e:'',n:'EH-SR86 決定在日本買',c:'待辦事項',s:'必去',m:'台灣約 NT$20,000；日本定價 79,200 日圓、免稅後約 72,000（實售通常更低），換算約 NT$12,000–14,000，價差三成以上，加上朋友住日本能幫忙送修，買日本划算。結帳時選免稅、不要選積分——點數帶不回台灣。※唯一沒解決的是電壓，現場一定要問充電方式'},
+  {t:'09:30',e:'13:20',n:'桃園 → 關西機場 MM024',c:'航班',s:'鎖定',m:'樂桃降落在第 2 航廈'},
+  {t:'13:20',e:'14:20',n:'入境、提行李（T2）',c:'交通',s:'必去',m:'關空入境尖峰抓一小時'},
+  {t:'14:20',e:'14:40',n:'免費接駁車 T2 → T1 車站',c:'交通',s:'必去',m:'鐵路車站在第 1 航廈，樂桃在第 2 航廈，一定要轉一次。約 7–10 分鐘車程，班次頻繁'},
+  {t:'14:45',e:'16:05',n:'HARUKA → 京都站',c:'交通',s:'必去',m:'約 80 分鐘。去程不預訂班次：入境時間抓不準，現場買或坐自由席最有彈性'},
+  {t:'16:15',e:'16:50',n:'Ace Hotel Kyoto Check-in',c:'住宿',s:'鎖定',m:'新風館（舊京都中央電話局，隈研吾改造），中京區車屋町 245-2。地鐵烏丸線京都 → 烏丸御池三站，車站在建築物裡面、不用走出戶外。前兩晚住這裡，含兩天早餐。行李放好就空手出門'},
+  {t:'16:55',e:'17:10',n:'烏丸御池 → 四条河原町',c:'交通',s:'必去',m:'地鐵一站到四条，或直接走約 12 分鐘'},
+  {t:'17:10',e:'18:20',n:'四条河原町 逛街',c:'購物',s:'必去',m:'飯店就在河原町路口，出門就是。KINDAL、KAPITAL 這種要慢慢翻的二手店放今天，多數店 20:00 打烊'},
+  {t:'18:20',e:'19:05',n:'寶可夢中心（SUINA 室町 2F）',c:'購物',s:'必去',m:'沿四条通往西走約 8 分鐘。10:00–20:00，趕在打烊前。舞妓皮卡丘、鳳王立像、京都限定商品'},
+  {t:'19:05',e:'19:55',n:'四条 → 河原町 再逛一輪',c:'購物',s:'必去',m:'多數店 20:00 打烊，把還沒跑完的店收尾。餓了就邊走邊買——錦市場旁的寺町、新京極商店街有頂棚，小吃和藥妝都在這一段'},
+  {t:'20:00',e:'20:20',n:'地鐵四条 → 京都站',c:'交通',s:'必去',m:'烏丸線兩站，走到 ヨドバシ 約 5 分鐘。車上剛好吃買的東西'},
+  {t:'20:20',e:'21:30',n:'美容儀 · ヨドバシカメラ 京都',c:'購物',s:'必去',m:'烏丸七条，開到 22:00。※先解決美容儀、先辦退稅，櫃台會排隊。目標 Panasonic バイタリフト RF EX（EH-SR86）。現場三件事：試 RF 溫熱感和 EMS 強度、問充電是不是 USB-C（關係到台灣 110V）、確認保證書當場蓋店章。結帳選免稅不要選積分'},
+  {t:'21:30',e:'22:00',n:'UNIQLO（京都ヨドバシ 4F）',c:'購物',s:'彈性',m:'同一棟樓 4F，開到 22:00，有 30 分鐘。逛不完也沒關係，河原町一帶也有分店，8/30 晚上再補'},
+  {t:'22:05',e:'22:25',n:'地鐵回飯店',c:'交通',s:'必去',m:'京都 → 烏丸御池三站，出站直接進飯店'},
+  {t:'22:30',e:'',n:'回房休息',c:'住宿',s:'彈性',m:'Ace 沒有大浴場，這趟泡湯的機會在 9/1 下午的梅湯（丸福樓送的免費券）'}]},
+
+ {d:'8/30',w:'日',t:'東山夏季限定 · 河原町 · 早收工',s:'高台寺特別公開只到 8/31，今天是最後機會。川床和 D&D 都移到 9/1，下午純逛街，傍晚就回得了飯店。',items:[
+  {t:'07:00',e:'07:25',n:'Ace Hotel 早餐',c:'早餐',s:'鎖定',m:'7:00 開始，住宿已含，有五種主餐可選。※今天要早出門，吃快一點'},
+  {t:'07:30',e:'07:45',n:'計程車到清水寺',c:'交通',s:'必去',m:'從烏丸御池約 15 分鐘'},
+  {t:'07:45',e:'08:55',n:'清水寺',c:'古蹟',s:'必去',m:'6:00 就開門，早場人最少'},
+  {t:'08:55',e:'09:35',n:'三年坂 → 二年坂（拍照）',c:'街區',s:'必去',m:'店家十點才開，所以這一趟純粹是空景。沒有人的石板路是這條街一天中最好看的樣子，購物等等再回來'},
+  {t:'09:35',e:'10:35',n:'高台寺（夏季特別公開）',c:'古蹟',s:'必去',m:'限定到 8/31，今天是最後機會。伏見城宴會廳修復後 237 年來首次公開，開山堂龍形天井畫同時開放。800 日圓含一般拜觀。9:00 開門'},
+  {t:'10:35',e:'11:40',n:'八坂通、二年坂購物',c:'購物',s:'必去',m:'商店這時才開。Nittodo Kyoto Cafe（日東堂）10:00–18:00，二樓看得到八坂之塔，冷萃咖啡評價很高、瓶裝拿鐵很適合當伴手禮——※週一、週四公休，8/30 週日有開。清水寺限定周邊、三年坂的おちゃのこさいさい（七味、香鬆，可試吃）也在這一段'},
+  {t:'11:45',e:'12:20',n:'大雲院 祇園閣（夏季特別公開）',c:'古蹟',s:'必去',m:'內部平常不開放。伊藤忠太設計，敦煌壁畫複製、十二生肖銅像天井，三樓看京都全景。10:00 開門，約 1,000 日圓。※閣上全面禁止拍照'},
+  {t:'12:20',e:'12:30',n:'走去十二段家',c:'交通',s:'必去',m:'約 10 分鐘。八坂神社這次跳過，晚上逛河原町時順路再去（免費、隨時可進）'},
+  {t:'12:30',e:'13:35',n:'十二段家 本店',c:'午餐',s:'鎖定',m:'已預約 12:30，商業午餐。炭火加熱的傳統壽喜燒。週三、四公休，8/30 週日有開'},
+  {t:'13:35',e:'14:00',n:'花見小路 → 白川 → 三条京阪',c:'街區',s:'必去',m:'不細逛，走過去就好。從十二段家出來往東就是花見小路，石板路兩側是茶屋建築，往北接新橋通、白川那段最有味道，邊走邊拍就夠了。※花見小路有私有地段禁止拍照，地上有標示'},
+  {t:'14:00',e:'14:40',n:'檀王法林寺（黑招財貓）',c:'寺院',s:'必去',m:'16:00 關門。拜觀 10:00–12:00／13:00–16:00，本堂 300 日圓。黑招財貓授與品在庫裏（寺務所）。日本最古的招財貓傳說，主夜神的使者是黑貓。※有遊客回報 2026 年上半年曾長期缺貨，可先打 075-771-0870 問'},
+  {t:'14:50',e:'17:00',n:'河原町購物 · 藥妝',c:'購物',s:'必去',m:'兩小時十分，今天下午就這一件事，可以慢慢逛。Stüssy、atmos、京都BAL、KINDAL、KAPITAL，加上藥妝。8/29 沒逛完的都補在今天。想去八坂神社的話從這裡走過去也不遠'},
+  {t:'17:15',e:'17:45',n:'回 Ace Hotel · 沖澡換衣服',c:'住宿',s:'必去',m:'今天走了十小時，先回來喘一下。比原本早了兩小時'},
+  {t:'17:45',e:'20:50',n:'飯店時間 · PIOPIKO',c:'酒吧',s:'彈性',m:'★整趟最悠閒的一段。中 2F–2F 的塔可與調酒 lounge，沙發區氣氛很好。不想喝酒就在 24 小時開放的大廳坐著，牆上是藝術家作品、常有 DJ；房間裡也有黑膠唱機。居酒屋走過去只要 5 分鐘'},
+  {t:'21:00',e:'22:30',n:'Rokkaku Ace',c:'居酒屋',s:'鎖定',m:'已預約。就在六角通，走回 Ace Hotel 只要 5 分鐘'},
+  {t:'23:00',e:'',n:'整理行李',c:'住宿',s:'必去',m:'明天要帶著行李移動到丸福樓，今晚一定要打包完'}]},
+
+ {d:'8/31',w:'一',t:'伏見稻荷 · 涉成園 · 任天堂',s:'早上稻荷只走精華段，回飯店躺到十一點半再退房。行李直接進丸福樓，晚上就不用再繞回來取。',items:[
+  {t:'前一晚',e:'',n:'整理好行李',c:'待辦事項',s:'待辦',m:'今天要帶著行李移動到丸福樓，8/30 晚上就要打包完'},
+  {t:'07:00',e:'07:45',n:'Ace Hotel 早餐',c:'早餐',s:'鎖定',m:'7:00 開始，住宿已含。今天不趕，慢慢吃、選跟昨天不一樣的主餐'},
+  {t:'08:00',e:'08:30',n:'地鐵烏丸御池 → 京都 → JR 稻荷',c:'交通',s:'必去',m:'地鐵三站到京都，轉 JR 奈良線兩站。※只有普通車停稻荷，みやこ路快速過站不停'},
+  {t:'08:30',e:'09:15',n:'伏見稻荷大社',c:'神社',s:'必去',m:'只走精華段：本殿 → 千本鳥居 → 奧社奉拜所（重輕石）折返，45 分鐘。真正密集的朱紅隧道在進去後 15–20 分鐘內就走完，再往上鳥居變稀疏、風景重複又是悶熱上坡'},
+  {t:'09:15',e:'09:50',n:'回 Ace Hotel',c:'交通',s:'必去',m:'原路回。路上在便利商店買點東西帶回房間'},
+  {t:'09:50',e:'11:30',n:'回房躺平',c:'休息',s:'必去',m:'★這是整趟唯一能真正躺平的一段。昨天走了十二小時、今天還有博物館和 carta. 接 FUREK，這 100 分鐘不要拿去做別的。想動的話 1F 的 STUMPTOWN 買杯咖啡回房間也很好'},
+  {t:'11:30',e:'12:00',n:'退房 · 計程車載行李到丸福樓',c:'住宿',s:'鎖定',m:'Ace 退房 12:00，時間很寬。行李直接寄丸福樓櫃台，晚上回來就不用再繞——這是這個安排最大的收穫'},
+  {t:'12:00',e:'12:15',n:'丸福樓 → 涉成園',c:'交通',s:'必去',m:'計程車 5 分鐘，或走路約 15 分鐘。太熱就叫車，等一下還要趕近鐵'},
+  {t:'12:15',e:'13:10',n:'涉成園 閬風亭（夏季特別公開）',c:'庭園',s:'鎖定',m:'※只有 55 分鐘，閬風亭的屏風畫先看、庭園快走一圈就好。井上雄彥畫親鸞生平的六曲一雙大屏風——平常不公開，過去只在秋天開放三天，今年 8/5–9/30 這種近兩個月的檔期非常罕見。園林堂裡還有棟方志功 1958 年的四十四面襖繪。閬風亭 500 日圓＋庭園維持費 700 日圓'},
+  {t:'13:10',e:'13:25',n:'走到京都站',c:'交通',s:'必去',m:'約 10 分鐘。13:10 一定要離開，這是今天唯一沒有緩衝的一段'},
+  {t:'13:25',e:'13:45',n:'走到近鐵剪票口',c:'交通',s:'必去',m:'※近鐵在八条口方向，從地面走過去要 10 分鐘以上，最容易被低估的一段'},
+  {t:'13:45',e:'14:10',n:'京都站 → 近鐵小倉站',c:'交通',s:'必去',m:'近鐵京都線約 20 分鐘'},
+  {t:'14:15',e:'14:30',n:'小倉站 → Nintendo Museum',c:'步行',s:'必去',m:'走路約 5 分鐘'},
+  {t:'14:30',e:'15:15',n:'HATENA BURGER（館內 3 號館 1F）',c:'午餐',s:'必去',m:'★入館後先去吃，不要等到逛完。館內唯一的餐廳，27 萬種組合可以自己配料，包裝紙和杯子都有 logo。有人記錄中午 12 點去排隊光結帳就等 30 分鐘，14:30 這個時段比較空。座位上用手機點餐、店內有 WiFi。※出門前先在便利商店買個飯糰墊著，萬一還是要排就不會餓到發脾氣'},
+  {t:'15:15',e:'17:30',n:'Nintendo Museum 展區',c:'景點',s:'鎖定',m:'已購票，指定入場 14:30–15:00。吃完還有兩小時十五分逛展'},
+  {t:'17:30',e:'18:15',n:'近鐵小倉站 → 京都站',c:'交通',s:'必去',m:'原路回'},
+  {t:'18:30',e:'',n:'丸福樓 Check-in',c:'住宿',s:'鎖定',m:'京都站計程車約 10 分鐘。行李早上就送到了，直接進房。後兩晚住這裡'},
+  {t:'19:30',e:'21:30',n:'carta. 晚餐（丸福樓內）',c:'晚餐',s:'鎖定',m:'已改期完成。料理家細川亞衣監修，連空間設計都是她做的，新式洋食套餐可加紅酒 pairing'},
+  {t:'21:45',e:'23:15',n:'Cocktail Stand FUREK',c:'酒吧',s:'彈性',m:'※週二公休，所以只能排今天（週一 18:00–24:00）。東山區鐘鑄町 352，從丸福樓走過去十幾分鐘，過個橋就到。130 年町家改建的站立式立飲調酒吧，自家井水加 150 種以上香氣蒸餾液，連 tonic 都自製，Google 4.9 分、人均 4,000–5,000 日圓。出發前看 Instagram 確認有沒有臨時休'},
+  {t:'23:30',e:'',n:'走回丸福樓',c:'住宿',s:'必去',m:'※明天 07:00 就要出發去嵐山。說好喝一杯就走，別戀棧——明天下午的休息只剩兩小時'}]},
+
+ {d:'9/1',w:'二',t:'竹林 · 小火車 · 二条城 · 川床',s:'金閣寺砍掉，二条城提早。8/30 的川床和 D&D 都移到今天下午——九月的川床席白天就開放，不像六到八月要等到四點。',items:[
+  {t:'07:00',e:'07:45',n:'丸福樓 → 嵐山',c:'交通',s:'必去',m:'走到京都站搭 JR 嵯峨野線到嵯峨嵐山'},
+  {t:'07:45',e:'08:35',n:'竹林小徑 → 野宮神社',c:'自然',s:'必去',m:'竹林免費、沒有開放時間，一早去是唯一正確答案，十點後人潮完全不同。天龍寺跳過（8:30 才開），渡月橋也略過——保津川的景等一下在小火車上看更好'},
+  {t:'08:40',e:'08:55',n:'走到小火車嵯峨站',c:'交通',s:'必去',m:'トロッコ嵯峨駅是獨立站體、有自己面向街道的出入口，從竹林走過去直接進去就好，不用碰 JR 的閘門（早上 07:45 下車時就已經刷 Suica 出站了）。小火車票只在小火車的閘門用，跟 JR 是兩套系統。記得先把電子車票截圖存相簿'},
+  {t:'09:02',e:'09:25',n:'嵯峨野小火車 5 號車（嵯峨 → 龜岡）',c:'景點',s:'鎖定',m:'已訂，訂單 ARS_SAGANO_KANKO-20260820-JDCU，成人 ×2、1,760 日圓。5 號車 The Rich 是全列唯一的敞篷車廂——兩端無窗玻璃、側板和地板鏤空、天花板透明，鑽八個隧道時風壓和聲音整個包過來。※沒有遮蔽，下雨會直接淋濕且不能撐傘；真的要下雨就當場改買 1～4 號車的當日券。帽子要壓好，會飛走'},
+  {t:'09:35',e:'09:55',n:'走到 JR 馬堀站 → 嵯峨嵐山',c:'交通',s:'必去',m:'從小火車龜岡站走約 10 分鐘，平路、指標清楚。沒買回程小火車票就是為了不用趕那 5 分鐘轉車。JR 直接刷 Suica'},
+  {t:'10:00',e:'10:35',n:'JR 嵯峨嵐山 → 二条 → 二条城',c:'交通',s:'必去',m:'嵯峨野線約 10 分鐘到二条站，走過去約 5 分鐘。比原本繞去金閣寺省下一趟三千日圓的計程車'},
+  {t:'10:35',e:'11:30',n:'二条城 · 只看二之丸御殿',c:'古蹟',s:'必去',m:'世界遺產、大政奉還的現場。33 個房間是一條單向走廊走完，40–50 分鐘就夠。唐門在入口動線上、二之丸庭園緊接在出口，最精華的都會經過。入城＋御殿 1,300 日圓。★大休憩所內賣店有夏限定「入城記念符」：鷹與虎主題、金箔燙印，700 日圓、限量 5,000 張，會印上當天日期。怕賣完可先電話問 075-841-0096。※御殿內脫鞋、要穿襪子、全面禁止攝影'},
+  {t:'11:30',e:'12:25',n:'二条城周邊晃晃',c:'自由時間',s:'彈性',m:'離午餐還有時間，附近喝個咖啡或看看店。累的話就直接去餐廳等'},
+  {t:'12:30',e:'13:30',n:'蕎麦 たつ市（Soba Tatsuichi）',c:'午餐',s:'鎖定',m:'已訂 12:30。中京區二条油小路町 276，離二条城走路 7 分鐘。招牌是鴨肉蕎麥和季節限定的六種冷蕎麥拼盤，份量偏大，別點太多。※就算訂了位，門口還是要在紙上寫名字排隊，約等 10 分鐘。飯後有蕎麥冰淇淋'},
+  {t:'13:40',e:'14:00',n:'走到三条大橋',c:'交通',s:'必去',m:'地鐵東西線二条城前 → 京都市役所前，或直接走約 20 分鐘'},
+  {t:'14:00',e:'15:00',n:'星巴克 京都三条大橋店 · 納涼床',c:'咖啡／納涼床',s:'必去',m:'全世界唯一有川床的星巴克，免席位費，一杯飲料就能上，限時 1 小時、一桌最多 4 人。★九月的川床席白天就開放（六到八月才限 16:00 之後），所以下午來剛好，人也比傍晚少。※禁用電腦、請勿撐陽傘'},
+  {t:'15:15',e:'15:55',n:'因幡堂 平等寺（毛孩御守）',c:'寺院',s:'必去',m:'地鐵四条站 5 號出口走 4 分鐘。寵物守、招財貓籤、小鳥御守（虎皮鸚鵡、玄鳳都有）。御守授與 16:30 截止，有充裕緩衝。參拜免費'},
+  {t:'16:05',e:'16:45',n:'D&DEPARTMENT KYOTO',c:'購物',s:'彈性',m:'從平等寺走過去約 5 分鐘。10:00–18:00，週三公休，9/1 週二有開。長效設計的選品和京都在地物產。累的話這項可以直接砍'},
+  {t:'17:00',e:'18:05',n:'回丸福樓休息',c:'休息',s:'彈性',m:'※看體力決定。想直接在市區待到晚餐也行，祇園就在旁邊。但昨晚十一點多才睡、今天七點就出門，能躺一下最好'},
+  {t:'18:05',e:'18:25',n:'前往祇園',c:'交通',s:'必去',m:'京阪七条 → 祇園四条兩站，出站走 4 分鐘'},
+  {t:'18:30',e:'19:45',n:'祇をん う桶や う',c:'晚餐',s:'鎖定',m:'已預約 18:30。晚餐只到 20:00，別遲到。祇園西花見小路，百年町家，二樓榻榻米座敷。招牌「名代う桶」是江戶燒鰻魚排成筏狀盛在杉木桶裡，小份（三人份）11,700 日圓，兩人吃得完。※白 HAKU 的おはぎ 也在祇園町南側，順路取'},
+  {t:'19:50',e:'20:15',n:'走回丸福樓',c:'交通',s:'彈性',m:'祇園走回去約 20 分鐘，沿鴨川散步很舒服；不想走就京阪祇園四条 → 七条兩站'},
+  {t:'20:20',e:'22:30',n:'圖書室、自助酒吧',c:'住宿',s:'彈性',m:'開到 23:00。山內家詮釋任天堂歷史的圖書室，加上自助式吧台，威士忌、琴酒自己調，全部 included。最後一晚不用再出門'},
+  {t:'22:30',e:'',n:'整理行李',c:'住宿',s:'必去',m:'明天 08:00 carta. 早餐、10:30 就要出發，今晚一定要收完'}]},
+
+ {d:'9/2',w:'三',t:'回程',s:'比原本提前 30 分鐘出發。樂桃在第 2 航廈，HARUKA 到的是第 1 航廈，中間要再轉一次接駁車。',items:[
+  {t:'08:00',e:'09:30',n:'carta. 早餐（丸福樓內）',c:'早餐',s:'鎖定',m:'已預約。和食早餐，窗邊採光很好。吃完再回房收尾，行李前一晚就要整理好'},
+  {t:'09:30',e:'10:30',n:'收行李、退房',c:'住宿',s:'鎖定',m:''},
+  {t:'10:30',e:'10:50',n:'丸福樓 → 京都站',c:'交通',s:'必去',m:'計程車'},
+  {t:'10:50',e:'11:15',n:'京都站買伴手禮 · ちいかわベーカリー',c:'購物',s:'必去',m:'★ちいかわ麵包店期間限定 pop up 就在 JR 京都站西口改札前的特設會場，10:00–21:00，開到 9/9。吐司各 950 日圓，還有盒裝的ふわふわおたべ，買滿 2,200 日圓有限定特典。位置在你們進站的路上，順手就到。伴手禮如果還想買別的，伊勢丹和八条口一帶也都有'},
+  {t:'11:20',e:'12:40',n:'HARUKA → 關西機場 T1',c:'交通',s:'鎖定',m:'指定席已訂。約 80 分鐘。※出發前把訂位紀錄截圖存相簿'},
+  {t:'12:40',e:'13:00',n:'免費接駁車 T1 → T2',c:'交通',s:'必去',m:'樂桃在第 2 航廈。這段最容易被忘記'},
+  {t:'13:00',e:'14:25',n:'報到、托運、安檢',c:'機場',s:'必去',m:'樂桃托運截止通常在起飛前 50 分鐘，也就是 14:25'},
+  {t:'15:15',e:'17:30',n:'KIX → 桃園 MM027',c:'航班',s:'鎖定',m:'17:30 抵達桃園'}]}
+];
+let data=null, active=0, saveTimer=null;
+
+const $=s=>document.querySelector(s);
+const clone=o=>JSON.parse(JSON.stringify(o));
+const uid=()=>Math.random().toString(36).slice(2,9);
+
+function normalize(days){
+  return days.map(d=>({...d,items:d.items.map(i=>({id:i.id||uid(),done:!!i.done,...i}))}));
+}
+
+function say(msg){ $('#sync').textContent=msg; }
+
+let toastTimer=null;
+function toast(msg,bad){
+  const t=$('#toast');
+  t.textContent=msg;
+  t.className='show'+(bad?' bad':'');
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>{t.className=bad?'bad':''},2200);
+}
+const hasStore = typeof window.storage!=='undefined' && window.storage
+  && typeof window.storage.set==='function';
+
+// Fallback for when this file is opened outside Claude (local file, cloud, own hosting):
+// window.storage doesn't exist there, so fall back to the browser's own storage.
+let hasLocal=false;
+try{ const k='__probe__'; window.localStorage.setItem(k,'1'); window.localStorage.removeItem(k); hasLocal=true; }catch(_){ hasLocal=false; }
+
+async function readStore(){
+  if(hasStore){ const r=await window.storage.get(KEY,SHARED); return r.value; }
+  if(hasLocal){ const v=window.localStorage.getItem(KEY); if(v===null) throw new Error('empty'); return v; }
+  throw new Error('no storage');
+}
+async function writeStore(str){
+  if(hasStore){ await window.storage.set(KEY,str,SHARED); return 'shared'; }
+  if(hasLocal){ window.localStorage.setItem(KEY,str); return 'local'; }
+  throw new Error('no storage');
+}
+const canStore=()=>hasStore||hasLocal;
+
+async function load(){
+  say('讀取中…');
+  try{
+    data=normalize(JSON.parse(await readStore()));
+    say(hasStore?'已同步 · 你們兩個人看到的是同一份':'已讀取這台裝置上存的版本（只存在這台電腦／手機）');
+  }catch(e){
+    data=normalize(clone(SEED));
+    if(hasStore){ say('目前是建議版本，修改後會自動儲存，兩個人共用同一份'); }
+    else if(hasLocal){ say('目前是建議版本，修改後會存在這台裝置（不會同步給另一個人）'); }
+    else { say('這個畫面沒有儲存空間，改動只留在目前分頁'); setTimeout(()=>toast('存不了，請用「複製成文字」備份',true),600); }
+  }
+  render();
+}
+
+async function save(silent){
+  clearTimeout(saveTimer);
+  const btn=$('#btnSave');
+  if(!canStore()){
+    say('這個畫面沒有儲存空間，改動只留在目前分頁');
+    toast('存不了，請先用「複製成文字」備份',true);
+    return;
+  }
+  say('儲存中…'); if(!silent){btn.textContent='儲存中…';}
+  try{
+    const where=await writeStore(JSON.stringify(data));
+    const t=new Date().toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit'});
+    say('已儲存 '+t+(where==='local'?' · 存在這台裝置':' · 兩人共用'));
+    toast('已儲存 '+t);
+    if(!silent){
+      btn.textContent='已儲存';btn.classList.add('ok');
+      setTimeout(()=>{btn.textContent='立即儲存';btn.classList.remove('ok');},1800);
+    }
+  }catch(e){
+    say('存不進去，改動只留在這個畫面');
+    toast('存不進去，請用「複製成文字」備份',true);
+    if(!silent)btn.textContent='立即儲存';
+  }
+}
+
+function queueSave(){ clearTimeout(saveTimer); say('編輯中…'); saveTimer=setTimeout(()=>save(true),900); }
+
+function tally(){
+  let lock=0,todo=0,done=0,all=0;
+  data.forEach(d=>d.items.forEach(i=>{all++;if(i.done)done++;if(i.s==='鎖定')lock++;if(i.s==='待辦')todo++;}));
+  $('#tally').innerHTML=
+    `<b>已鎖定<i>${lock}</i></b><b>待處理<i>${todo}</i></b><b>已確認<i>${done}<span style="font-weight:400;color:var(--ink-3)">/${all}</span></i></b>`;
+}
+
+function renderNav(){
+  $('#nav').innerHTML=data.map((d,i)=>
+    `<button role="tab" aria-selected="${i===active}" data-i="${i}">${d.d}<span class="d">${d.w} · DAY ${i+1}</span></button>`).join('');
+}
+
+function esc(s){return (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+
+function renderDay(){
+  const d=data[active];
+  $('#main').innerHTML=`<section class="day">
+    <div class="day-head">
+      <div class="day-no">DAY ${active+1} · <span contenteditable="true" data-d="d" data-ph="日期">${esc(d.d)}</span>（<span contenteditable="true" data-d="w" data-ph="—">${esc(d.w)}</span>）</div>
+      <div class="day-title" contenteditable="true" data-d="t" data-ph="這天的標題">${esc(d.t)}</div>
+      <div class="day-sub" contenteditable="true" data-d="s" data-ph="加一句這天的備註…">${esc(d.s||'')}</div>
+      <div class="hint">上面的日期、標題、備註可直接點下去改；下面每一列點一下會展開編輯</div>
+      <div class="daybar">
+        <button data-day="add">＋ 新增一天</button>
+        <button data-day="left">← 往前移</button>
+        <button data-day="right">往後移 →</button>
+        <button data-day="del" class="danger">刪掉這天</button>
+      </div>
+    </div>
+    <div class="rail">${d.items.map((i,x)=>row(i,x)).join('')}</div>
+    <button class="add" id="addItem">＋ 加一個行程</button>
+  </section>`;
+}
+
+function row(i,x){
+  return `<div class="item${i.done?' done':''}" data-s="${esc(i.s)}" data-x="${x}">
+    <div class="time mono">${esc(i.t)}${i.e?`<span>${esc(i.e)}</span>`:''}</div>
+    <div class="pin"></div>
+    <div class="card" data-act="toggle">
+      <div class="top">
+        <div class="name">${esc(i.n)}</div>
+        <div class="chk" data-act="done" role="checkbox" aria-checked="${i.done}" tabindex="0" aria-label="標記已確認"></div>
+      </div>
+      ${i.m?`<div class="note">${esc(i.m)}</div>`:''}
+      <div class="tags"><span class="tag ${esc(i.s)}">${esc(i.s)}</span><span class="cat">${esc(i.c)}</span><span class="pen">編輯</span></div>
+      <div class="edit">
+        <div class="row2">
+          <div><label>開始</label><input type="text" data-f="t" value="${esc(i.t)}" placeholder="09:00"></div>
+          <div><label>結束</label><input type="text" data-f="e" value="${esc(i.e)}" placeholder="可留空"></div>
+        </div>
+        <label>行程</label><input type="text" data-f="n" value="${esc(i.n)}">
+        <label>類別</label><input type="text" data-f="c" value="${esc(i.c)}">
+        <label>備註</label><textarea data-f="m">${esc(i.m)}</textarea>
+        <label>狀態</label>
+        <div class="picker">${STATUSES.map(s=>`<button data-s2="${s}" aria-pressed="${s===i.s}">${s}</button>`).join('')}</div>
+        <button class="del" data-act="del">刪掉這一項</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function render(){ renderNav(); renderDay(); tally(); }
+
+document.addEventListener('click',e=>{
+  const nb=e.target.closest('#nav button');
+  if(nb){ active=+nb.dataset.i; render(); window.scrollTo({top:0}); return; }
+
+  const db=e.target.closest('[data-day]');
+  if(db){
+    const act=db.dataset.day;
+    if(act==='add'){
+      data.splice(active+1,0,{d:'新日期',w:'—',t:'新的一天',s:'',items:[]});
+      active++;
+    }else if(act==='left'&&active>0){
+      [data[active-1],data[active]]=[data[active],data[active-1]];active--;
+    }else if(act==='right'&&active<data.length-1){
+      [data[active+1],data[active]]=[data[active],data[active+1]];active++;
+    }else if(act==='del'){
+      if(data.length<2){toast('至少要留一天',true);return;}
+      data.splice(active,1); if(active>=data.length)active=data.length-1;
+    }else return;
+    render();window.scrollTo({top:0});queueSave();return;
+  }
+
+  if(e.target.id==='addItem'){
+    data[active].items.push({id:uid(),t:'',e:'',n:'新的行程',c:'其他',s:'彈性',m:'',done:false});
+    renderDay();tally();queueSave();return;
+  }
+
+  const item=e.target.closest('.item'); if(!item)return;
+  const it=data[active].items[+item.dataset.x];
+
+  if(e.target.closest('[data-act="done"]')){
+    it.done=!it.done; item.classList.toggle('done',it.done);
+    e.target.closest('[data-act="done"]').setAttribute('aria-checked',it.done);
+    tally();queueSave();return;
+  }
+  if(e.target.closest('[data-act="del"]')){
+    data[active].items.splice(+item.dataset.x,1);renderDay();tally();queueSave();return;
+  }
+  const sb=e.target.closest('[data-s2]');
+  if(sb){
+    it.s=sb.dataset.s2;
+    item.dataset.s=it.s;
+    item.querySelector('.tag').className='tag '+it.s;
+    item.querySelector('.tag').textContent=it.s;
+    item.querySelectorAll('[data-s2]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.s2===it.s));
+    tally();queueSave();return;
+  }
+  if(e.target.closest('.edit'))return;
+  const wasOpen=item.classList.contains('open');
+  document.querySelectorAll('.item.open').forEach(n=>n.classList.remove('open'));
+  if(!wasOpen){
+    item.classList.add('open');
+    try{
+      const f=item.querySelector('input[data-f="t"]');
+      if(f&&window.innerWidth>=640)f.focus();
+    }catch(_){}
+  }
+});
+
+document.addEventListener('keydown',e=>{
+  if((e.key===' '||e.key==='Enter')&&e.target.classList.contains('chk')){e.preventDefault();e.target.click();}
+});
+
+document.addEventListener('blur',e=>{
+  const t=e.target;
+  if(t&&t.dataset&&t.dataset.d){ data[active][t.dataset.d]=t.textContent.trim(); renderNav(); save(true); }
+},true);
+
+document.addEventListener('input',e=>{
+  const df=e.target.dataset.d;
+  if(df){
+    data[active][df]=e.target.textContent;
+    if(df==='d'||df==='w')renderNav();
+    queueSave();return;
+  }
+  const f=e.target.dataset.f; if(!f)return;
+  const item=e.target.closest('.item'); if(!item)return;
+  const it=data[active].items[+item.dataset.x];
+  it[f]=e.target.value;
+  if(f==='n')item.querySelector('.name').textContent=e.target.value;
+  if(f==='t'||f==='e'){
+    item.querySelector('.time').innerHTML=esc(it.t)+(it.e?`<span>${esc(it.e)}</span>`:'');
+  }
+  if(f==='m'){
+    let n=item.querySelector('.note');
+    if(!n&&it.m){n=document.createElement('div');n.className='note';item.querySelector('.top').after(n);}
+    if(n)n.textContent=it.m;
+  }
+  if(f==='c')item.querySelector('.cat').textContent=e.target.value;
+  queueSave();
+});
+
+document.addEventListener('paste',e=>{
+  if(!e.target.isContentEditable)return;
+  e.preventDefault();
+  const t=(e.clipboardData||window.clipboardData).getData('text/plain');
+  document.execCommand('insertText',false,t);
+});
+
+$('#btnSave').onclick=()=>save(false);
+
+$('#btnCopy').onclick=()=>{
+  const txt=data.map((d,i)=>
+    `【DAY ${i+1}｜${d.d}（${d.w}）${d.t}】\n`+
+    d.items.map(x=>`${x.done?'✓ ':'· '}${x.t}${x.e?'–'+x.e:''}  ${x.n} [${x.s}]${x.m?'\n    '+x.m:''}`).join('\n')
+  ).join('\n\n');
+  $('#copyText').value=txt;
+  $('#dlgCopy').showModal();
+  $('#copyText').select();
+};
+$('#dlgClose').onclick=()=>$('#dlgCopy').close();
+$('#dlgCopyBtn').onclick=async()=>{
+  const ta=$('#copyText'); ta.select();
+  try{ await navigator.clipboard.writeText(ta.value); $('#dlgCopyBtn').textContent='已複製'; }
+  catch(e){ document.execCommand('copy'); $('#dlgCopyBtn').textContent='已複製'; }
+  setTimeout(()=>{$('#dlgCopyBtn').textContent='複製全部';},1600);
+};
+
+$('#btnReset').onclick=()=>$('#dlgReset').showModal();
+$('#resetNo').onclick=()=>$('#dlgReset').close();
+$('#resetYes').onclick=async()=>{
+  $('#dlgReset').close();
+  data=normalize(clone(SEED));
+  render();await save();
+};
+
+load();
+</script>
+</body>
+</html>
